@@ -15,38 +15,38 @@ import org.springframework.web.client.RestTemplate;
  */
 public class QueryBuilderTest {
 
-	public static final String GOOGLE_ANALYTICS_UA_ID = "GOOGLE_ANALYTICS_UA_ID";
+    public static final String GOOGLE_ANALYTICS_UA_ID = "GOOGLE_ANALYTICS_UA_ID";
 
-	public static final String googleAnalyticsUAID = System.getenv(GOOGLE_ANALYTICS_UA_ID);
+    public static final String googleAnalyticsUAID = System.getenv(GOOGLE_ANALYTICS_UA_ID);
 
-	private QueryBuilder queryBuilder = null;
+    private QueryBuilder queryBuilder = null;
 
-	@Before
-	public void setUp() throws Exception {
-		queryBuilder = new QueryBuilder(new RestTemplate ());
-	}
+    @Before
+    public void setUp() throws Exception {
+        queryBuilder = new QueryBuilder(new RestTemplate ());
+    }
 
-	@After
-	public void tearDown() throws Exception {
-		queryBuilder = null;
-	}
+    @After
+    public void tearDown() throws Exception {
+        queryBuilder = null;
+    }
 
-	@Test
-	public void testWithV() {
+    @Test
+    public void testSuccessfulGAPost () {
 
-		String result = queryBuilder
-			.withV1()
-			.withTid(googleAnalyticsUAID)
-			.withCIDAsRandomUUID()
-			.withTAsEvent()
-			.withEc ("Integration Test")
-			.withAn ("CL GAMA Client")
-			.withEa ("Integration Test Started")
-			.withAv ("Version 0.8.5-RELEASE")
-			.withEl ("Version 0.8.5-RELEASE")
-			.doPost();
+        String result = queryBuilder
+            .withV1()
+            .withTid(googleAnalyticsUAID)
+            .withCIDAsRandomUUID()
+            .withTAsEvent()
+            .withEc ("Integration Test")
+            .withAn ("CL GAMA Client")
+            .withEa ("Integration Test Started")
+            .withAv ("Version 0.8.5-RELEASE")
+            .withEl ("Version 0.8.5-RELEASE")
+            .doPost();
 
-		System.out.println("result: " + result);
-	}
+        // We'll need to manually check that the data has, in fact, been recevied by GA.
+    }
 
 }
