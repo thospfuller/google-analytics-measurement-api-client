@@ -90,7 +90,7 @@
         way to do this however at the moment commenting the module seems to work. -->
     <modules>
         <module>gama-client-core</module>
-        <!-- module>gama-client-core-it</module -->
+        <module>gama-client-core-it</module>
     </modules>
 
     <dependencyManagement>
