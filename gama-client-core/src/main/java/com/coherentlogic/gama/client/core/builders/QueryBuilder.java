@@ -17,6 +17,7 @@ import com.coherentlogic.coherent.data.model.core.util.Utils;
 import com.coherentlogic.coherent.data.model.core.util.WelcomeMessage;
 import com.coherentlogic.gama.client.core.exceptions.InvalidQueueTime;
 import com.coherentlogic.gama.client.core.exceptions.MaxLengthInBytesExceededException;
+import com.coherentlogic.gama.client.core.exceptions.ValueCannotBeNegativeException;
 
 /**
  * Class is used to send events to Google Analytics via the Measurement API.
@@ -105,6 +106,22 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
         super(restTemplate, uriBuilder);
     }
 
+    static void checkSizeOf (String parameterName, String parameterValue, int maxLengthInBytes) {
+
+        Utils.assertNotNull(parameterName, parameterValue);
+
+        if (maxLengthInBytes < parameterValue.getBytes().length) {
+            throw new MaxLengthInBytesExceededException (parameterName, parameterValue, maxLengthInBytes);
+        }
+    }
+
+    /**
+     * Converts the value to either 0 or 1.
+     */
+    String asBoolean (boolean value) {
+        return value ? "1" : "0";
+    }
+
     /**
      * Protocol Version
      *
@@ -148,13 +165,6 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
         addParameter("tid", trackingId);
     
         return this;
-    }
-
-    /**
-     * Converts the value to either 0 or 1.
-     */
-    String asBoolean (boolean value) {
-        return value ? "1" : "0";
     }
 
     /**
@@ -534,7 +544,7 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      */
     public QueryBuilder withSr (String screenResolution) {
 
-    	checkSizeOf("screenResolution", screenResolution, 20);
+        checkSizeOf("screenResolution", screenResolution, 20);
 
         addParameter("sr", screenResolution);
 
@@ -552,7 +562,7 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      */
     public QueryBuilder withVp (String viewportSize) {
 
-    	checkSizeOf("viewportSize", viewportSize, 20);
+        checkSizeOf("viewportSize", viewportSize, 20);
 
         addParameter("vp", viewportSize);
 
@@ -570,7 +580,7 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      */
     public QueryBuilder withDe (String documentEncoding) {
 
-    	checkSizeOf("documentEncoding", documentEncoding, 20);
+        checkSizeOf("documentEncoding", documentEncoding, 20);
 
         addParameter("de", documentEncoding);
 
@@ -588,7 +598,7 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      */
     public QueryBuilder withSd (String screenColors) {
 
-    	checkSizeOf("screenColors", screenColors, 20);
+        checkSizeOf("screenColors", screenColors, 20);
 
         addParameter("sd", screenColors);
 
@@ -606,7 +616,7 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      */
     public QueryBuilder withUl (String userLanguage) {
 
-    	checkSizeOf("userLanguage", userLanguage, 20);
+        checkSizeOf("userLanguage", userLanguage, 20);
 
         addParameter("ul", userLanguage);
 
@@ -640,7 +650,7 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      */
     public QueryBuilder withFl (String flashVersion) {
 
-    	checkSizeOf("flashVersion", flashVersion, 20);
+        checkSizeOf("flashVersion", flashVersion, 20);
 
         addParameter("fl", flashVersion);
 
@@ -772,6 +782,20 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
     }
 
     /**
+     * Hit type
+     *
+     * Required for all hit types.
+     *
+     * The type of hit. Must be one of 'pageview', 'screenview', 'event', 'transaction', 'item', 'social', 'exception',
+     * 'timing'.
+     *
+     * Example value: timing
+     */
+    public QueryBuilder withTAsTiming () {
+        return withT (TIMING);
+    }
+
+    /**
      * Non-Interaction Hit
      *
      * Optional.
@@ -803,7 +827,7 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      */
     public QueryBuilder withDl (String documentLocationURL) {
 
-    	checkSizeOf("documentLocationURL", documentLocationURL, 2048);
+        checkSizeOf("documentLocationURL", documentLocationURL, 2048);
 
         addParameter("dl", documentLocationURL);
 
@@ -821,7 +845,7 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      */
     public QueryBuilder withDh (String documentHostName) {
 
-    	checkSizeOf("documentHostName", documentHostName, 100);
+        checkSizeOf("documentHostName", documentHostName, 100);
 
         addParameter("dh", documentHostName);
 
@@ -840,7 +864,7 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      */
     public QueryBuilder withDp (String documentPath) {
 
-    	checkSizeOf("documentPath", documentPath, 2048);
+        checkSizeOf("documentPath", documentPath, 2048);
 
         addParameter("dp", documentPath);
 
@@ -853,68 +877,101 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      * Optional.
      *
      * The title of the page / document.
+     *
+     * Example value: Settings
      */
     public QueryBuilder withDt (String documentTitle) {
 
-    	checkSizeOf("documentTitle", documentTitle, 1500);
+        checkSizeOf("documentTitle", documentTitle, 1500);
 
         addParameter("dt", documentTitle);
 
         return this;
     }
 
-
-    
     /**
-     * Hit type
+     * Screen Name
      *
-     * Required for all hit types.
+     * Required for screenview hit type.
      *
-     * The type of hit. Must be one of 'pageview', 'screenview', 'event', 'transaction', 'item', 'social', 'exception',
-     * 'timing'.
+     * This parameter is optional on web properties, and required on mobile properties for screenview hits, where it is
+     * used for the 'Screen Name' of the screenview hit. On web properties this will default to the unique URL of the
+     * page by either using the &dl parameter as-is or assembling it from &dh and &dp.
      *
-     * Example value: timing
+     * Example value: High Scores
      */
-    public QueryBuilder withTAsTiming () {
-        return withT (TIMING);
-    }
+    public QueryBuilder withCd (String screenName) {
 
-    static void checkSizeOf (String parameterName, String parameterValue, int maxLengthInBytes) {
+        checkSizeOf("screenName", screenName, 2048);
 
-        Utils.assertNotNull(parameterName, parameterValue);
-
-        if (maxLengthInBytes < parameterValue.getBytes().length) {
-            throw new MaxLengthInBytesExceededException (parameterName, parameterValue, maxLengthInBytes);
-        }
-    }
-
-    public QueryBuilder withEc (String eventCategory) {
-
-        checkSizeOf ("eventCategory", eventCategory, 150);
-
-        addParameter("ec", eventCategory);
+        addParameter("cd", screenName);
 
         return this;
     }
 
+    /**
+     * Link ID
+     *
+     * Optional.
+     *
+     * The ID of a clicked DOM element, used to disambiguate multiple links to the same URL in In-Page Analytics reports
+     * when Enhanced Link Attribution is enabled for the property.
+     *
+     * Example value: nav_bar
+     */
+    public QueryBuilder withLinkid (String linkID) {
+
+        addParameter("linkid", linkID);
+
+        return this;
+    }
+
+    /**
+     * Application Name
+     *
+     * Optional.
+     *
+     * Specifies the application name. This field is required for any hit that has app related data (i.e., app version,
+     * app ID, or app installer ID). For hits sent to web properties, this field is optional.
+     *
+     * Example value: My App
+     */
     public QueryBuilder withAn (String applicationName) {
 
-        checkSizeOf ("applicationName", applicationName, 100);
+        checkSizeOf("applicationName", applicationName, 100);
 
         addParameter("an", applicationName);
 
         return this;
     }
 
-    public QueryBuilder withEa (String eventAction) {
+    /**
+     * Application ID
+     *
+     * Optional.
+     *
+     * Application identifier.
+     *
+     * Example value: com.company.app
+     */
+    public QueryBuilder withAid (String applicationID) {
 
-        checkSizeOf ("eventAction", eventAction, 500);
+        checkSizeOf("applicationID", applicationID, 150);
 
-        addParameter("ea", eventAction);
+        addParameter("aid", applicationID);
 
         return this;
     }
 
+    /**
+     * Application Version
+     *
+     * Optional.
+     *
+     * Specifies the application version.
+     *
+     * Example value: 1.2
+     */
     public QueryBuilder withAv (String applicationVersion) {
 
         checkSizeOf ("applicationVersion", applicationVersion, 100);
@@ -924,11 +981,106 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
         return this;
     }
 
+    /**
+     * Application Installer ID
+     *
+     * Optional.
+     *
+     * Application installer identifier.
+     *
+     * Example value: com.platform.vending
+     */
+    public QueryBuilder withAiid (String applicationInstallerID) {
+
+        checkSizeOf ("applicationInstallerID", applicationInstallerID, 150);
+
+        addParameter("aiid", applicationInstallerID);
+
+        return this;
+    }
+
+    /**
+     * Event Category
+     *
+     * Required for event hit type.
+     *
+     * Specifies the event category. Must not be empty.
+     *
+     * Example value: Category
+     */
+    public QueryBuilder withEc (String eventCategory) {
+
+        checkSizeOf ("eventCategory", eventCategory, 150);
+
+        addParameter("ec", eventCategory);
+
+        return this;
+    }
+
+    /**
+     * Event Action
+     *
+     * Required for event hit type.
+     *
+     * Specifies the event action. Must not be empty.
+     *
+     * Example value: Action
+     */
+    public QueryBuilder withEa (String eventAction) {
+
+        checkSizeOf ("eventAction", eventAction, 500);
+
+        addParameter("ea", eventAction);
+
+        return this;
+    }
+
+    /**
+     * Event Label
+     *
+     * Optional.
+     *
+     * Specifies the event label.
+     *
+     * Example value: Label
+     */
     public QueryBuilder withEl (String eventLabel) {
 
         checkSizeOf ("eventLabel", eventLabel, 500);
 
         addParameter("el", eventLabel);
+
+        return this;
+    }
+
+    /**
+     * @todo Move this to the Utils class.
+     * @todo Use more generalized exception.
+     */
+    static void assertNotNegative (String name, Integer value) {
+
+        Utils.assertNotNull(name, value);
+
+        if (value < 0)
+            throw new ValueCannotBeNegativeException (name, value);
+    }
+
+    /**
+     * Event Value
+     *
+     * Optional.
+     *
+     * Specifies the event value. Values must be non-negative.
+     *
+     * Example value: 55
+     *
+     * @todo Unit test negative values.
+     */
+    public QueryBuilder withEv (int eventValue) {
+
+        assertNotNegative("eventValue", eventValue);
+
+        addParameter("ev", Integer.toString(eventValue));
 
         return this;
     }
