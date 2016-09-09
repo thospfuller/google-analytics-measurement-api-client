@@ -1,5 +1,6 @@
 package com.coherentlogic.gama.client.core.builders;
 
+import java.math.BigDecimal;
 import java.net.URI;
 import java.util.UUID;
 
@@ -17,7 +18,8 @@ import com.coherentlogic.coherent.data.model.core.util.Utils;
 import com.coherentlogic.coherent.data.model.core.util.WelcomeMessage;
 import com.coherentlogic.gama.client.core.exceptions.InvalidQueueTime;
 import com.coherentlogic.gama.client.core.exceptions.MaxLengthInBytesExceededException;
-import com.coherentlogic.gama.client.core.exceptions.ValueCannotBeNegativeException;
+import com.coherentlogic.gama.client.core.exceptions.NegativeValueException;
+import com.coherentlogic.gama.client.core.exceptions.ValueOutOfBoundsException;
 
 /**
  * Class is used to send events to Google Analytics via the Measurement API.
@@ -1062,7 +1064,7 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
         Utils.assertNotNull(name, value);
 
         if (value < 0)
-            throw new ValueCannotBeNegativeException (name, value);
+            throw new NegativeValueException (name, value);
     }
 
     /**
@@ -1084,6 +1086,535 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
 
         return this;
     }
+
+    /**
+     * Transaction ID
+     *
+     * Required for transaction hit type.
+     * Required for item hit type.
+     *
+     * A unique identifier for the transaction. This value should be the same for both the Transaction hit and Items
+     * hits associated to the particular transaction.
+     *
+     * Example value: OD564
+     */
+    public QueryBuilder withTi (String transactionID) {
+
+        checkSizeOf ("transactionID", transactionID, 500);
+
+        addParameter("ti", transactionID);
+
+        return this;
+    }
+
+    /**
+     * Transaction Affiliation
+     *
+     * Optional.
+     *
+     * Specifies the affiliation or store name.
+     *
+     * Example value: Member
+     */
+    public QueryBuilder withTa (String transactionAffiliation) {
+
+        checkSizeOf ("transactionAffiliation", transactionAffiliation, 500);
+
+        addParameter("ta", transactionAffiliation);
+
+        return this;
+    }
+
+    /**
+     * Transaction Revenue
+     *
+     * Optional.
+     *
+     * Specifies the total revenue associated with the transaction. This value should include any shipping or tax costs.
+     *
+     * Example value: 15.47
+     */
+    public QueryBuilder withTr (String transactionRevenue) {
+
+        Utils.assertNotNull("transactionRevenue", transactionRevenue);
+
+        addParameter("tr", transactionRevenue);
+
+        return this;
+    }
+
+    /**
+     * Transaction Revenue
+     *
+     * Optional.
+     *
+     * Specifies the total revenue associated with the transaction. This value should include any shipping or tax costs.
+     *
+     * Example value: 15.47
+     *
+     * @todo Should we reject negative values?
+     */
+    public QueryBuilder withTr (BigDecimal transactionRevenue) {
+
+        Utils.assertNotNull("transactionRevenue", transactionRevenue);
+
+        addParameter("tr", transactionRevenue.toString());
+
+        return this;
+    }
+
+    /**
+     * Transaction Tax
+     *
+     * Optional.
+     *
+     * Specifies the total tax of the transaction.
+     *
+     * Example value: 11.20
+     *
+     * @todo Should we reject negative values?
+     */
+    public QueryBuilder withTt (BigDecimal transactionTax) {
+
+        Utils.assertNotNull("transactionTax", transactionTax);
+
+        addParameter("tt", transactionTax.toString());
+
+        return this;
+    }
+
+    /**
+     * Item Name
+     *
+     * Required for item hit type.
+     *
+     * Specifies the item name.
+     *
+     * Example value: Shoe
+     */
+    public QueryBuilder withIn (String itemName) {
+
+        checkSizeOf ("itemName", itemName, 500);
+
+        addParameter("in", itemName);
+
+        return this;
+    }
+
+    /**
+     * Item Price
+     *
+     * Optional.
+     *
+     * Specifies the price for a single item / unit.
+     *
+     * Example value: 3.50
+     *
+     * @todo Should we reject negative values?
+     */
+    public QueryBuilder withIp (String itemPrice) {
+
+        Utils.assertNotNull("itemPrice", itemPrice);
+
+        addParameter("ip", itemPrice);
+
+        return this;
+    }
+
+    /**
+     * Item Price
+     *
+     * Optional.
+     *
+     * Specifies the price for a single item / unit.
+     *
+     * Example value: 3.50
+     *
+     * @todo Should we reject negative values?
+     */
+    public QueryBuilder withIp (BigDecimal itemPrice) {
+
+        Utils.assertNotNull("itemPrice", itemPrice);
+
+        addParameter("ip", itemPrice.toString());
+
+        return this;
+    }
+
+    /**
+     * Event Value
+     *
+     * Optional.
+     *
+     * Specifies the event value. Values must be non-negative.
+     *
+     * Example value: 55
+     *
+     * @todo Unit test negative values.
+     */
+    public QueryBuilder withIq (String itemQuantity) {
+
+        Utils.assertNotNull("itemQuantity", itemQuantity);
+
+        addParameter("iq", itemQuantity);
+
+        return this;
+    }
+
+    /**
+     * Event Value
+     *
+     * Optional.
+     *
+     * Specifies the event value. Values must be non-negative.
+     *
+     * Example value: 55
+     *
+     * @todo Unit test negative values.
+     */
+    public QueryBuilder withIq (int itemQuantity) {
+
+        assertNotNegative("itemQuantity", itemQuantity);
+
+        addParameter("iq", Integer.toString(itemQuantity));
+
+        return this;
+    }
+
+    /**
+     * Item Code
+     *
+     * Optional.
+     *
+     * Specifies the SKU or item code.
+     *
+     * Example value: SKU47
+     */
+    public QueryBuilder withIc (String itemCode) {
+
+        checkSizeOf ("itemCode", itemCode, 500);
+
+        addParameter("ic", itemCode);
+
+        return this;
+    }
+
+    /**
+     * Item Category
+     *
+     * Optional.
+     *
+     * Specifies the category that the item belongs to.
+     *
+     * Example value: Blue
+     */
+    public QueryBuilder withIv (String itemCategory) {
+
+        checkSizeOf ("itemCategory", itemCategory, 500);
+
+        addParameter("iv", itemCategory);
+
+        return this;
+    }
+
+    /**
+     * Currency Code
+     *
+     * Optional.
+     *
+     * When present indicates the local currency for all transaction currency values. Value should be a valid ISO 4217
+     * currency code.
+     *
+     * Example value: EUR
+     */
+    public QueryBuilder withCu (String currencyCode) {
+
+        checkSizeOf ("currencyCode", currencyCode, 500);
+
+        addParameter("cu", currencyCode);
+
+        return this;
+    }
+
+    static final void assertBetween (String name, int begin, int end, int actual) {
+
+        if (! (begin <= actual || actual <= end))
+            throw new ValueOutOfBoundsException(name, begin, end, actual);
+    }
+
+    /**
+     * Product SKU
+     *
+     * Optional.
+     *
+     * The SKU of the product. Product index must be a positive integer between 1 and 200, inclusive. For analytics.js
+     * the Enhanced Ecommerce plugin must be installed before using this field.
+     *
+     * Example value: P12345
+     * Example usage: pr1id=P12345
+     */
+    public QueryBuilder withPrNid (int productIndexN, String value) {
+
+        assertBetween("productIndexN", 1, 200, productIndexN);
+        checkSizeOf ("value", value, 500);
+
+        addParameter("pr" + productIndexN + "id", value);
+
+        return this;
+    }
+
+    /**
+     * Product Name
+     *
+     * Optional.
+     *
+     * The name of the product. Product index must be a positive integer between 1 and 200, inclusive. For analytics.js
+     * the Enhanced Ecommerce plugin must be installed before using this field.
+     *
+     * Example value: Android T-Shirt
+     */
+    public QueryBuilder withPrNNm (int productIndexN, String value) {
+
+        assertBetween("productIndexN", 1, 200, productIndexN);
+        checkSizeOf ("value", value, 500);
+
+        addParameter("pr" + productIndexN + "nm", value);
+
+        return this;
+    }
+
+    /**
+     * Product Brand
+     *
+     * Optional.
+     *
+     * The brand associated with the product. Product index must be a positive integer between 1 and 200, inclusive. For
+     * analytics.js the Enhanced Ecommerce plugin must be installed before using this field.
+     *
+     * Example value: Google
+     */
+    public QueryBuilder withPrNBr (int productIndexN, String value) {
+
+        assertBetween("productIndexN", 1, 200, productIndexN);
+        checkSizeOf ("value", value, 500);
+
+        addParameter("pr" + productIndexN + "br", value);
+
+        return this;
+    }
+
+    /**
+     * Product Category
+     *
+     * Optional.
+     *
+     * The category to which the product belongs. Product index must be a positive integer between 1 and 200, inclusive. The product category parameter can be hierarchical. Use / as a delimiter to specify up to 5-levels of hierarchy. For analytics.js the Enhanced Ecommerce plugin must be installed before using this field. 
+     *
+     * Example value: Apparel
+     * Example usage: pr1ca=Apparel
+     *
+     * Example value: Apparel/Mens/T-Shirts
+     * Example usage: pr1ca=Apparel%2FMens%2FT-Shirts
+     */
+    public QueryBuilder withPrNCa (int productIndexN, String value) {
+
+        assertBetween("productIndexN", 1, 200, productIndexN);
+        checkSizeOf ("value", value, 500);
+
+        addParameter("pr" + productIndexN + "ca", value);
+
+        return this;
+    }
+
+    /**
+     * Product Variant
+     *
+     * Optional.
+     *
+     * The variant of the product. Product index must be a positive integer between 1 and 200, inclusive. For
+     * analytics.js the Enhanced Ecommerce plugin must be installed before using this field.
+     *
+     * Example value: Black
+     * Example usage: pr1va=Black
+     */
+    public QueryBuilder withPrNVa (int productIndexN, String value) {
+
+        assertBetween("productIndexN", 1, 200, productIndexN);
+        checkSizeOf ("value", value, 500);
+
+        addParameter("pr" + productIndexN + "va", value);
+
+        return this;
+    }
+
+    /**
+     * Product Price
+     *
+     * Optional.
+     *
+     * The unit price of a product. Product index must be a positive integer between 1 and 200, inclusive. For
+     * analytics.js the Enhanced Ecommerce plugin must be installed before using this field.
+     *
+     * Example value: 29.20
+     * Example usage: pr1pr=29.20
+     */
+    public QueryBuilder withPrNPr (int productIndexN, String value) {
+
+        assertBetween("productIndexN", 1, 200, productIndexN);
+        Utils.assertNotNull ("value", value);
+
+        addParameter("pr" + productIndexN + "pr", value);
+
+        return this;
+    }
+
+    /**
+     * Product Price
+     *
+     * Optional.
+     *
+     * The unit price of a product. Product index must be a positive integer between 1 and 200, inclusive. For
+     * analytics.js the Enhanced Ecommerce plugin must be installed before using this field.
+     *
+     * Example value: 29.20
+     * Example usage: pr1pr=29.20
+     */
+    public QueryBuilder withPrNPr (int productIndexN, BigDecimal value) {
+
+        assertBetween("productIndexN", 1, 200, productIndexN);
+        Utils.assertNotNull("value", value);
+
+        addParameter("pr" + productIndexN + "pr", value.toString());
+
+        return this;
+    }
+
+    /**
+     * Product Quantity
+     *
+     * Optional.
+     *
+     * The quantity of a product. Product index must be a positive integer between 1 and 200, inclusive. For
+     * analytics.js the Enhanced Ecommerce plugin must be installed before using this field.
+     *
+     * Example value: 2
+     * Example usage: pr1qt=2
+     */
+    public QueryBuilder withPrNQt (int productIndexN, Integer value) {
+
+        assertBetween("productIndexN", 1, 200, productIndexN);
+        assertNotNegative("value", value);
+
+        addParameter("pr" + productIndexN + "qt", value.toString());
+
+        return this;
+    }
+
+    /**
+     * Product Quantity
+     *
+     * Optional.
+     *
+     * The quantity of a product. Product index must be a positive integer between 1 and 200, inclusive. For
+     * analytics.js the Enhanced Ecommerce plugin must be installed before using this field.
+     *
+     * Example value: 2
+     * Example usage: pr1qt=2
+     */
+    public QueryBuilder withPrNQt (int productIndexN, String value) {
+
+        assertBetween("productIndexN", 1, 200, productIndexN);
+        Utils.assertNotNull("value", value);
+
+        addParameter("pr" + productIndexN + "qt", value);
+
+        return this;
+    }
+
+    /**
+     * Product Coupon Code
+     *
+     * Optional.
+     *
+     * The coupon code associated with a product. Product index must be a positive integer between 1 and 200, inclusive.
+     * For analytics.js the Enhanced Ecommerce plugin must be installed before using this field.
+     * 
+     * Example value: SUMMER_SALE13
+     * Example usage: pr1cc=SUMMER_SALE13
+     */
+    public QueryBuilder withPrNCc (int productIndexN, Integer value) {
+
+        assertBetween("productIndexN", 1, 200, productIndexN);
+        assertNotNegative("value", value);
+
+        addParameter("pr" + productIndexN + "cc", value.toString());
+
+        return this;
+    }
+
+    /**
+     * Product Coupon Code
+     *
+     * Optional.
+     *
+     * The coupon code associated with a product. Product index must be a positive integer between 1 and 200, inclusive.
+     * For analytics.js the Enhanced Ecommerce plugin must be installed before using this field.
+     * 
+     * Example value: SUMMER_SALE13
+     * Example usage: pr1cc=SUMMER_SALE13
+     */
+    public QueryBuilder withPrNCc (int productIndexN, String value) {
+
+        assertBetween("productIndexN", 1, 200, productIndexN);
+        checkSizeOf("value", value, 500);
+
+        addParameter("pr" + productIndexN + "cc", value);
+
+        return this;
+    }
+
+    /**
+     * Product Position
+     *
+     * Optional.
+     *
+     * The product's position in a list or collection. Product index must be a positive integer between 1 and 200,
+     * inclusive. For analytics.js the Enhanced Ecommerce plugin must be installed before using this field.
+     *
+     * Example value: 2
+     * Example usage: pr1ps=2
+     */
+    public QueryBuilder withPrNPs (int productIndexN, String value) {
+
+        assertBetween("productIndexN", 1, 200, productIndexN);
+
+        addParameter("pr" + productIndexN + "ps", value);
+
+        return this;
+    }
+
+    /**
+     * Product Position
+     *
+     * Optional.
+     *
+     * The product's position in a list or collection. Product index must be a positive integer between 1 and 200,
+     * inclusive. For analytics.js the Enhanced Ecommerce plugin must be installed before using this field.
+     *
+     * Example value: 2
+     * Example usage: pr1ps=2
+     */
+    public QueryBuilder withPrNPs (int productIndexN, Integer value) {
+
+        assertBetween("productIndexN", 1, 200, productIndexN);
+        assertNotNegative("value", value);
+
+        addParameter("pr" + productIndexN + "ps", value.toString());
+
+        return this;
+    }
+
+//
 
     @Override
     protected String getKey() {
