@@ -1088,6 +1088,8 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
     }
 
     /**
+     * Below is from E-Commerce.
+     *
      * Transaction ID
      *
      * Required for transaction hit type.
@@ -1097,6 +1099,21 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      * hits associated to the particular transaction.
      *
      * Example value: OD564
+     * 
+     * -----
+     * 
+     * Below is from Enhanced E-Commerce, which does not have a size associated with the transactionID, however this
+     * limitation should still apply.
+     *
+     * Transaction ID
+     *
+     * Optional.
+     *
+     * The transaction ID. This is an additional parameter that can be sent when Product Action is set to 'purchase' or
+     * 'refund'. For analytics.js the Enhanced Ecommerce plugin must be installed before using this field.
+     *
+     * Example value: T1234
+     * Example usage: ti=T1234
      */
     public QueryBuilder withTi (String transactionID) {
 
@@ -1115,6 +1132,21 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      * Specifies the affiliation or store name.
      *
      * Example value: Member
+     * 
+     * -----
+     *
+     * Below appears in Enhanced E-Commerce.
+     *
+     * Affiliation
+     *
+     * Optional.
+     *
+     * The store or affiliation from which this transaction occurred. This is an additional parameter that can be sent
+     * when Product Action is set to 'purchase' or 'refund'. For analytics.js the Enhanced Ecommerce plugin must be
+     * installed before using this field.
+     *
+     * Example value: Google Store
+     * Example usage: ta=Google%20Store
      */
     public QueryBuilder withTa (String transactionAffiliation) {
 
@@ -1610,6 +1642,270 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
         assertNotNegative("value", value);
 
         addParameter("pr" + productIndexN + "ps", value.toString());
+
+        return this;
+    }
+
+    /**
+     * Product Custom Dimension
+     *
+     * Optional.
+     *
+     * A product-level custom dimension where dimension index is a positive integer between 1 and 200, inclusive.
+     * Product index must be a positive integer between 1 and 200, inclusive. For analytics.js the Enhanced Ecommerce
+     * plugin must be installed before using this field.
+     *
+     * Example value: Member
+     * Example usage: pr1cd2=Member
+     *
+     * @todo Consider changing N to X for consistency.
+     */
+    public QueryBuilder withPrXCdY (int productIndexX, int dimensionIndexY, String value) {
+
+        assertBetween("productIndexX", 1, 200, productIndexX);
+        assertBetween("dimensionIndexY", 1, 200, dimensionIndexY);
+        Utils.assertNotNull("value", value);
+
+        addParameter("pr" + productIndexX + "ps" + dimensionIndexY, value);
+
+        return this;
+    }
+
+    /**
+     * Product Custom Metric
+     *
+     * Optional.
+     *
+     * A product-level custom metric where metric index is a positive integer between 1 and 200, inclusive. Product
+     * index must be a positive integer between 1 and 200, inclusive. For analytics.js the Enhanced Ecommerce plugin
+     * must be installed before using this field.
+     *
+     * Example value: 28
+     * Example usage: pr1cm2=28
+     */
+    public QueryBuilder withPrXCmY (int productIndexX, int metricIndexY, String value) {
+
+        assertBetween("productIndexX", 1, 200, productIndexX);
+        assertBetween("metricIndexY", 1, 200, metricIndexY);
+        Utils.assertNotNull("value", value);
+
+        addParameter("pr" + productIndexX + "cm" + metricIndexY, value);
+
+        return this;
+    }
+
+    /**
+     * Product Action
+     *
+     * Optional.
+     *
+     * The role of the products included in a hit. If a product action is not specified, all product definitions
+     * included with the hit will be ignored. Must be one of: detail, click, add, remove, checkout, checkout_option,
+     * purchase, refund. For analytics.js the Enhanced Ecommerce plugin must be installed before using this field.
+     *
+     * Example value: detail
+     * Example usage: pa=detail
+     */
+    public QueryBuilder withPa (String productAction) {
+
+        addParameter("pa", productAction);
+
+        return this;
+    }
+
+    /**
+     * Product Action
+     *
+     * Optional.
+     *
+     * The role of the products included in a hit. If a product action is not specified, all product definitions
+     * included with the hit will be ignored. Must be one of: detail, click, add, remove, checkout, checkout_option,
+     * purchase, refund. For analytics.js the Enhanced Ecommerce plugin must be installed before using this field.
+     *
+     * Example value: detail
+     * Example usage: pa=detail
+     */
+    public QueryBuilder withPaAsDetail () {
+        return withPa("detail");
+    }
+
+    /**
+     * Product Action
+     *
+     * Optional.
+     *
+     * The role of the products included in a hit. If a product action is not specified, all product definitions
+     * included with the hit will be ignored. Must be one of: detail, click, add, remove, checkout, checkout_option,
+     * purchase, refund. For analytics.js the Enhanced Ecommerce plugin must be installed before using this field.
+     *
+     * Example value: detail
+     * Example usage: pa=detail
+     */
+    public QueryBuilder withPaAsClick () {
+        return withPa("click");
+    }
+
+    /**
+     * Product Action
+     *
+     * Optional.
+     *
+     * The role of the products included in a hit. If a product action is not specified, all product definitions
+     * included with the hit will be ignored. Must be one of: detail, click, add, remove, checkout, checkout_option,
+     * purchase, refund. For analytics.js the Enhanced Ecommerce plugin must be installed before using this field.
+     *
+     * Example value: detail
+     * Example usage: pa=detail
+     */
+    public QueryBuilder withPaAsAdd () {
+        return withPa("add");
+    }
+
+    /**
+     * Product Action
+     *
+     * Optional.
+     *
+     * The role of the products included in a hit. If a product action is not specified, all product definitions
+     * included with the hit will be ignored. Must be one of: detail, click, add, remove, checkout, checkout_option,
+     * purchase, refund. For analytics.js the Enhanced Ecommerce plugin must be installed before using this field.
+     *
+     * Example value: detail
+     * Example usage: pa=detail
+     */
+    public QueryBuilder withPaAsRemove () {
+        return withPa("remove");
+    }
+
+    /**
+     * Product Action
+     *
+     * Optional.
+     *
+     * The role of the products included in a hit. If a product action is not specified, all product definitions
+     * included with the hit will be ignored. Must be one of: detail, click, add, remove, checkout, checkout_option,
+     * purchase, refund. For analytics.js the Enhanced Ecommerce plugin must be installed before using this field.
+     *
+     * Example value: detail
+     * Example usage: pa=detail
+     */
+    public QueryBuilder withPaAsCheckout () {
+        return withPa("checkout");
+    }
+
+    /**
+     * Product Action
+     *
+     * Optional.
+     *
+     * The role of the products included in a hit. If a product action is not specified, all product definitions
+     * included with the hit will be ignored. Must be one of: detail, click, add, remove, checkout, checkout_option,
+     * purchase, refund. For analytics.js the Enhanced Ecommerce plugin must be installed before using this field.
+     *
+     * Example value: detail
+     * Example usage: pa=detail
+     */
+    public QueryBuilder withPaAsCheckoutOption () {
+        return withPa("checkout_option");
+    }
+
+    /**
+     * Product Action
+     *
+     * Optional.
+     *
+     * The role of the products included in a hit. If a product action is not specified, all product definitions
+     * included with the hit will be ignored. Must be one of: detail, click, add, remove, checkout, checkout_option,
+     * purchase, refund. For analytics.js the Enhanced Ecommerce plugin must be installed before using this field.
+     *
+     * Example value: detail
+     * Example usage: pa=detail
+     */
+    public QueryBuilder withPaAsPurchase () {
+        return withPa("purchase");
+    }
+
+    /**
+     * Product Action
+     *
+     * Optional.
+     *
+     * The role of the products included in a hit. If a product action is not specified, all product definitions
+     * included with the hit will be ignored. Must be one of: detail, click, add, remove, checkout, checkout_option,
+     * purchase, refund. For analytics.js the Enhanced Ecommerce plugin must be installed before using this field.
+     *
+     * Example value: detail
+     * Example usage: pa=detail
+     */
+    public QueryBuilder withPaAsRefund () {
+        return withPa("refund");
+    }
+
+    // Note that the GAM documentation has ti here too but this parameter is mentioned already earlier in the doc hence
+    // we have implemented this already.
+
+    // Note that the GAM documentation has ta here too but this parameter is mentioned already earlier in the doc hence
+    // we have implemented this already.
+
+    // Note that the GAM documentation has tr here too but this parameter is mentioned already earlier in the doc hence
+    // we have implemented this already.
+
+    // Note that the GAM documentation has tt here too but this parameter is mentioned already earlier in the doc hence
+    // we have implemented this already.
+
+    /**
+     * Shipping
+     *
+     * Optional.
+     *
+     * The shipping cost associated with the transaction. This is an additional parameter that can be sent when Product
+     * Action is set to 'purchase' or 'refund'. For analytics.js the Enhanced Ecommerce plugin must be installed before
+     * using this field.
+     *
+     * Example value: 3.55
+     * Example usage: ts=3.55
+     */
+    public QueryBuilder withTs (String shipping) {
+
+        addParameter("ts", shipping);
+
+        return this;
+    }
+
+    /**
+     * Shipping
+     *
+     * Optional.
+     *
+     * The shipping cost associated with the transaction. This is an additional parameter that can be sent when Product
+     * Action is set to 'purchase' or 'refund'. For analytics.js the Enhanced Ecommerce plugin must be installed before
+     * using this field.
+     *
+     * Example value: 3.55
+     * Example usage: ts=3.55
+     */
+    public QueryBuilder withTs (BigDecimal shipping) {
+
+        addParameter("ts", shipping);
+
+        return this;
+    }
+
+    /**
+     * Coupon Code
+     *
+     * Optional.
+     *
+     * The transaction coupon redeemed with the transaction. This is an additional parameter that can be sent when
+     * Product Action is set to 'purchase' or 'refund'. For analytics.js the Enhanced Ecommerce plugin must be installed
+     * before using this field.
+     *
+     * Example value: SUMMER08
+     * Example usage: tcc=SUMMER08
+     */
+    public QueryBuilder withTcc (String couponCode) {
+
+        addParameter("tcc", couponCode);
 
         return this;
     }
