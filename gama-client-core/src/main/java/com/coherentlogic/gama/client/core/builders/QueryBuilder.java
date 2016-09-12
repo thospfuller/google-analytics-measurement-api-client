@@ -108,13 +108,29 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
         super(restTemplate, uriBuilder);
     }
 
-    static void checkSizeOf (String parameterName, String parameterValue, int maxLengthInBytes) {
+    /**
+     * @todo Move this to the Utils class.
+     * @todo Use more generalized exception.
+     */
+    QueryBuilder assertNotNegative (String name, Integer value) {
+
+        Utils.assertNotNull(name, value);
+
+        if (value < 0)
+            throw new NegativeValueException (name, value);
+
+        return this;
+    }
+
+    QueryBuilder checkSizeOf (String parameterName, String parameterValue, int maxLengthInBytes) {
 
         Utils.assertNotNull(parameterName, parameterValue);
 
         if (maxLengthInBytes < parameterValue.getBytes().length) {
             throw new MaxLengthInBytesExceededException (parameterName, parameterValue, maxLengthInBytes);
         }
+
+        return this;
     }
 
     /**
@@ -1056,18 +1072,6 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
     }
 
     /**
-     * @todo Move this to the Utils class.
-     * @todo Use more generalized exception.
-     */
-    static void assertNotNegative (String name, Integer value) {
-
-        Utils.assertNotNull(name, value);
-
-        if (value < 0)
-            throw new NegativeValueException (name, value);
-    }
-
-    /**
      * Event Value
      *
      * Optional.
@@ -1168,8 +1172,6 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      */
     public QueryBuilder withTr (String transactionRevenue) {
 
-        Utils.assertNotNull("transactionRevenue", transactionRevenue);
-
         addParameter("tr", transactionRevenue);
 
         return this;
@@ -1188,8 +1190,6 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      */
     public QueryBuilder withTr (BigDecimal transactionRevenue) {
 
-        Utils.assertNotNull("transactionRevenue", transactionRevenue);
-
         addParameter("tr", transactionRevenue.toString());
 
         return this;
@@ -1207,8 +1207,6 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      * @todo Should we reject negative values?
      */
     public QueryBuilder withTt (BigDecimal transactionTax) {
-
-        Utils.assertNotNull("transactionTax", transactionTax);
 
         addParameter("tt", transactionTax.toString());
 
@@ -1246,8 +1244,6 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      */
     public QueryBuilder withIp (String itemPrice) {
 
-        Utils.assertNotNull("itemPrice", itemPrice);
-
         addParameter("ip", itemPrice);
 
         return this;
@@ -1266,8 +1262,6 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      */
     public QueryBuilder withIp (BigDecimal itemPrice) {
 
-        Utils.assertNotNull("itemPrice", itemPrice);
-
         addParameter("ip", itemPrice.toString());
 
         return this;
@@ -1285,8 +1279,6 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      * @todo Unit test negative values.
      */
     public QueryBuilder withIq (String itemQuantity) {
-
-        Utils.assertNotNull("itemQuantity", itemQuantity);
 
         addParameter("iq", itemQuantity);
 
@@ -1368,10 +1360,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
         return this;
     }
 
-    static final void assertBetween (String name, int begin, int end, int actual) {
+    QueryBuilder assertBetween (String name, int begin, int end, int actual) {
 
         if (! (begin <= actual || actual <= end))
             throw new ValueOutOfBoundsException(name, begin, end, actual);
+
+        return this;
     }
 
     /**
@@ -1493,7 +1487,6 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
     public QueryBuilder withPrNPr (int productIndexN, String value) {
 
         assertBetween("productIndexN", 1, 200, productIndexN);
-        Utils.assertNotNull ("value", value);
 
         addParameter("pr" + productIndexN + "pr", value);
 
@@ -1556,7 +1549,6 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
     public QueryBuilder withPrNQt (int productIndexN, String value) {
 
         assertBetween("productIndexN", 1, 200, productIndexN);
-        Utils.assertNotNull("value", value);
 
         addParameter("pr" + productIndexN + "qt", value);
 
@@ -1664,7 +1656,6 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
 
         assertBetween("productIndexX", 1, 200, productIndexX);
         assertBetween("dimensionIndexY", 1, 200, dimensionIndexY);
-        Utils.assertNotNull("value", value);
 
         addParameter("pr" + productIndexX + "ps" + dimensionIndexY, value);
 
@@ -1687,7 +1678,6 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
 
         assertBetween("productIndexX", 1, 200, productIndexX);
         assertBetween("metricIndexY", 1, 200, metricIndexY);
-        Utils.assertNotNull("value", value);
 
         addParameter("pr" + productIndexX + "cm" + metricIndexY, value);
 
@@ -1906,6 +1896,293 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
     public QueryBuilder withTcc (String couponCode) {
 
         addParameter("tcc", couponCode);
+
+        return this;
+    }
+
+    /**
+     * Product Action List
+     *
+     * Optional.
+     *
+     * The list or collection from which a product action occurred. This is an additional parameter that can be sent
+     * when Product Action is set to 'detail' or 'click'. For analytics.js the Enhanced Ecommerce plugin must be
+     * installed before using this field.
+     *
+     * Example value: Search Results
+     * Example usage: pal=Search%20Results
+     */
+    public QueryBuilder withPal (String productActionList) {
+
+        addParameter("pal", productActionList);
+
+        return this;
+    }
+
+    /**
+     * Checkout Step
+     *
+     * Optional.
+     *
+     * The step number in a checkout funnel. This is an additional parameter that can be sent when Product Action is set
+     * to 'checkout'. For analytics.js the Enhanced Ecommerce plugin must be installed before using this field.
+     *
+     * Example value: 2
+     * Example usage: cos=2
+     */
+    public QueryBuilder withCos (int checkoutStep) {
+
+        addParameter("cos", checkoutStep);
+
+        return this;
+    }
+
+    /**
+     * Checkout Step Option
+     *
+     * Optional.
+     *
+     * Additional information about a checkout step. This is an additional parameter that can be sent when Product
+     * Action is set to 'checkout'. For analytics.js the Enhanced Ecommerce plugin must be installed before using this
+     * field.
+     *
+     * Example value: Visa
+     * Example usage: col=Visa
+     */
+    public QueryBuilder withCol (String checkoutStepOption) {
+
+        addParameter("col", checkoutStepOption);
+
+        return this;
+    }
+
+    /**
+     * Product Impression List Name
+     *
+     * Optional.
+     *
+     * The list or collection to which a product belongs. Impression List index must be a positive integer between 1 and
+     * 200, inclusive. For analytics.js the Enhanced Ecommerce plugin must be installed before using this field.
+     *
+     * Example value: Search Results
+     * Example usage: il1nm=Search%20Results
+     */
+    public QueryBuilder withIlXNm (int listIndex, String productImpressionListName) {
+
+        assertBetween("listIndex", 1, 200, listIndex);
+
+        addParameter("il" + listIndex + "nm", productImpressionListName);
+
+        return this;
+    }
+
+    /**
+     * Product Impression SKU
+     *
+     * Optional.
+     *
+     * The product ID or SKU. Impression List index must be a positive integer between 1 and 200, inclusive. Product
+     * index must be a positive integer between 1 and 200, inclusive. For analytics.js the Enhanced Ecommerce plugin
+     * must be installed before using this field.
+     *
+     * Example value: P67890
+     * Example usage: il1pi2id=P67890
+     */
+    public QueryBuilder withIlXPiYId (int listIndex, int productIndex, String productImpressionSKU) {
+
+        assertBetween("listIndex", 1, 200, listIndex);
+        assertBetween("productIndex", 1, 200, productIndex);
+
+        addParameter("il" + listIndex + "pi" + productIndex + "id", productImpressionSKU);
+
+        return this;
+    }
+
+    /**
+     * Product Impression Name
+     *
+     * Optional.
+     *
+     * The name of the product. Impression List index must be a positive integer between 1 and 200, inclusive. Product
+     * index must be a positive integer between 1 and 200, inclusive. For analytics.js the Enhanced Ecommerce plugin
+     * must be installed before using this field.
+     *
+     * Example value: Android T-Shirt
+     * Example usage: il1pi2nm=Android%20T-Shirt
+     */
+    public QueryBuilder withIlXPiYNm (int listIndex, int productIndex, String productImpressionName) {
+
+        assertBetween("listIndex", 1, 200, listIndex);
+        assertBetween("productIndex", 1, 200, productIndex);
+
+        addParameter("il" + listIndex + "pi" + productIndex + "nm", productImpressionName);
+
+        return this;
+    }
+
+    /**
+     * Product Impression Brand
+     *
+     * Optional.
+     *
+     * The brand associated with the product. Impression List index must be a positive integer between 1 and 200,
+     * inclusive. Product index must be a positive integer between 1 and 200, inclusive. For analytics.js the Enhanced
+     * Ecommerce plugin must be installed before using this field.
+     *
+     * Example value: Google
+     * Example usage: il1pi2br=Google
+     */
+    public QueryBuilder withIlXPiYBr (int listIndex, int productIndex, String productImpressionBrand) {
+
+        assertBetween("listIndex", 1, 200, listIndex);
+        assertBetween("productIndex", 1, 200, productIndex);
+
+        addParameter("il" + listIndex + "pi" + productIndex + "br", productImpressionBrand);
+
+        return this;
+    }
+
+    /**
+     * Product Impression Category
+     *
+     * Optional.
+     *
+     * The category to which the product belongs. Impression List index must be a positive integer between 1 and 200,
+     * inclusive. Product index must be a positive integer between 1 and 200, inclusive. For analytics.js the Enhanced
+     * Ecommerce plugin must be installed before using this field.
+     *
+     * Example value: Apparel
+     * Example usage: il1pi2ca=Apparel
+     */
+    public QueryBuilder withIlXPiYCa (int listIndex, int productIndex, String productImpressionBrand) {
+
+        assertBetween("listIndex", 1, 200, listIndex);
+        assertBetween("productIndex", 1, 200, productIndex);
+
+        addParameter("il" + listIndex + "pi" + productIndex + "ca", productImpressionBrand);
+
+        return this;
+    }
+
+    /**
+     * Product Impression Variant
+     *
+     * Optional.
+     *
+     * The variant of the product. Impression List index must be a positive integer between 1 and 200, inclusive.
+     * Product index must be a positive integer between 1 and 200, inclusive. For analytics.js the Enhanced Ecommerce
+     * plugin must be installed before using this field.
+     *
+     * Example value: Black
+     * Example usage: il1pi2va=Black
+     */
+    public QueryBuilder withIlXPiYVa (int listIndex, int productIndex, String productImpressionVariant) {
+
+        assertBetween("listIndex", 1, 200, listIndex);
+        assertBetween("productIndex", 1, 200, productIndex);
+
+        addParameter("il" + listIndex + "pi" + productIndex + "va", productImpressionVariant);
+
+        return this;
+    }
+
+    /**
+     * Product Impression Position
+     *
+     * Optional.
+     *
+     * The product's position in a list or collection. Impression List index must be a positive integer between 1 and
+     * 200, inclusive. Product index must be a positive integer between 1 and 200, inclusive. For analytics.js the
+     * Enhanced Ecommerce plugin must be installed before using this field.
+     *
+     * Example value: 2
+     * Example usage: il1pi2ps=2
+     */
+    public QueryBuilder withIlXPiYPs (int listIndex, int productIndex, String productImpressionPosition) {
+
+        assertBetween("listIndex", 1, 200, listIndex);
+        assertBetween("productIndex", 1, 200, productIndex);
+
+        addParameter("il" + listIndex + "pi" + productIndex + "ps", productImpressionPosition);
+
+        return this;
+    }
+
+    /**
+     * Product Impression Price
+     *
+     * Optional.
+     *
+     * The price of a product. Impression List index must be a positive integer between 1 and 200, inclusive. Product
+     * index must be a positive integer between 1 and 200, inclusive. For analytics.js the Enhanced Ecommerce plugin
+     * must be installed before using this field.
+     *
+     * Example value: 29.20
+     * Example usage: il1pi2pr=29.20
+     */
+    public QueryBuilder withIlXPiYPr (int listIndex, int productIndex, String productImpressionPrice) {
+
+        assertBetween("listIndex", 1, 200, listIndex);
+        assertBetween("productIndex", 1, 200, productIndex);
+
+        addParameter("il" + listIndex + "pi" + productIndex + "pr", productImpressionPrice);
+
+        return this;
+    }
+
+    /**
+     * Product Impression Custom Dimension
+     *
+     * Optional.
+     *
+     * A product-level custom dimension where dimension index is a positive integer between 1 and 200, inclusive.
+     * Impression List index must be a positive integer between 1 and 200, inclusive. Product index must be a positive
+     * integer between 1 and 200, inclusive. For analytics.js the Enhanced Ecommerce plugin must be installed before
+     * using this field.
+     *
+     * Example value: Member
+     * Example usage: il1pi2cd3=Member
+     */
+    public QueryBuilder withIlXPiYCdZ (
+        int listIndex,
+        int productIndex,
+        int dimensionIndex,
+        String productImpressionCustomDimension
+    ) {
+
+        assertBetween("listIndex", 1, 200, listIndex);
+        assertBetween("productIndex", 1, 200, productIndex);
+        assertBetween("dimensionIndex", 1, 200, dimensionIndex);
+
+        addParameter("il" + listIndex + "pi" + productIndex + "cd" + dimensionIndex, productImpressionCustomDimension);
+
+        return this;
+    }
+
+    /**
+     * Product Impression Custom Metric
+     *
+     * Optional.
+     *
+     * A product-level custom metric where metric index is a positive integer between 1 and 200, inclusive. Impression
+     * List index must be a positive integer between 1 and 200, inclusive. Product index must be a positive integer
+     * between 1 and 200, inclusive. For analytics.js the Enhanced Ecommerce plugin must be installed before using this
+     * field.
+     *
+     * Example value: 28
+     * Example usage: il1pi2cm3=28
+     */
+    public QueryBuilder withIlXPiYCmZ (
+        int listIndex,
+        int productIndex,
+        int metricIndex,
+        String productImpressionCustomMetric
+    ) {
+        assertBetween("listIndex", 1, 200, listIndex);
+        assertBetween("productIndex", 1, 200, productIndex);
+        assertBetween("metricIndex", 1, 200, metricIndex);
+
+        addParameter("il" + listIndex + "pi" + productIndex + "cm" + metricIndex, productImpressionCustomMetric);
 
         return this;
     }
