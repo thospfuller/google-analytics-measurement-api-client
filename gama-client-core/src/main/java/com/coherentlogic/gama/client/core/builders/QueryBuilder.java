@@ -96,6 +96,10 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
     public static final String GOOGLE_ANALYTICS_TRACKING_KEY = "GOOGLE_ANALYTICS_TRACKING",
         GOOGLE_ANALYTICS_URL = "http://www.google-analytics.com/collect";
 
+    public QueryBuilder() {
+        this(new RestTemplate (), GOOGLE_ANALYTICS_URL);
+    }
+
     public QueryBuilder(RestTemplate restTemplate) {
         this(restTemplate, GOOGLE_ANALYTICS_URL);
     }
@@ -112,7 +116,7 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      * @todo Move this to the Utils class.
      * @todo Use more generalized exception.
      */
-    QueryBuilder assertNotNegative (String name, Integer value) {
+    QueryBuilder assertNotNegative (String name, long value) {
 
         Utils.assertNotNull(name, value);
 
@@ -2187,7 +2191,512 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
         return this;
     }
 
-//
+    /**
+     * Promotion ID
+     *
+     * Optional.
+     *
+     * The promotion ID. Promotion index must be a positive integer between 1 and 200, inclusive. For analytics.js the
+     * Enhanced Ecommerce plugin must be installed before using this field.
+     *
+     * Example value: SHIP
+     * Example usage: promo1id=SHIP
+     */
+    public QueryBuilder withPromoNId (
+        int promoIndex,
+        String promotionID
+    ) {
+        assertBetween("promoIndex", 1, 200, promoIndex);
+
+        addParameter("promo" + promoIndex + "id", promotionID);
+
+        return this;
+    }
+
+    /**
+     * Promotion Name
+     *
+     * Optional.
+     *
+     * The name of the promotion. Promotion index must be a positive integer between 1 and 200, inclusive. For
+     * analytics.js the Enhanced Ecommerce plugin must be installed before using this field.
+     *
+     * Example value: Free Shipping
+     * Example usage: promo1nm=Free%20Shipping
+     */
+    public QueryBuilder withPromoNNm (
+        int promoIndex,
+        String promotionName
+    ) {
+        assertBetween("promoIndex", 1, 200, promoIndex);
+
+        addParameter("promo" + promoIndex + "nm", promotionName);
+
+        return this;
+    }
+
+    /**
+     * Promotion Creative
+     *
+     * Optional.
+     *
+     * The creative associated with the promotion. Promotion index must be a positive integer between 1 and 200,
+     * inclusive. For analytics.js the Enhanced Ecommerce plugin must be installed before using this field.
+     *
+     * Example value: Shipping Banner
+     * Example usage: promo1cr=Shipping%20Banner
+     */
+    public QueryBuilder withPromoNCr (
+        int promoIndex,
+        String promotionCreative
+    ) {
+        assertBetween("promoIndex", 1, 200, promoIndex);
+
+        addParameter("promo" + promoIndex + "cr", promotionCreative);
+
+        return this;
+    }
+
+    /**
+     * Promotion Position
+     *
+     * Optional.
+     *
+     * The position of the creative. Promotion index must be a positive integer between 1 and 200, inclusive. For
+     * analytics.js the Enhanced Ecommerce plugin must be installed before using this field.
+     *
+     * Example value: banner_slot_1
+     * Example usage: promo1ps=banner_slot_1
+     */
+    public QueryBuilder withPromoNPs (
+        int promoIndex,
+        String promotionPosition
+    ) {
+        assertBetween("promoIndex", 1, 200, promoIndex);
+
+        addParameter("promo" + promoIndex + "ps", promotionPosition);
+
+        return this;
+    }
+
+    /**
+     * Promotion Action
+     *
+     * Optional.
+     *
+     * Specifies the role of the promotions included in a hit. If a promotion action is not specified, the default
+     * promotion action, 'view', is assumed. To measure a user click on a promotion set this to 'promo_click'. For
+     * analytics.js the Enhanced Ecommerce plugin must be installed before using this field.
+     *
+     * Example value: click
+     * Example usage: promoa=click
+     */
+    public QueryBuilder withPromoa (String promotionAction) {
+
+        addParameter("promoa", promotionAction);
+
+        return this;
+    }
+
+    /**
+     * Social Network
+     *
+     * Required for social hit type.
+     *
+     * Specifies the social network, for example Facebook or Google Plus.
+     *
+     * Example value: facebook
+     * Example usage: sn=facebook
+     */
+    public QueryBuilder withSn (String socialNetwork) {
+
+        checkSizeOf("socialNetwork", socialNetwork, 50);
+
+        addParameter("sn", socialNetwork);
+
+        return this;
+    }
+
+    /**
+     * Social Action
+     *
+     * Required for social hit type.
+     *
+     * Specifies the social interaction action. For example on Google Plus when a user clicks the +1 button, the social
+     * action is 'plus'.
+     *
+     * Example value: like
+     * Example usage: sa=like
+     */
+    public QueryBuilder withSa (String socialAction) {
+
+        checkSizeOf("socialAction", socialAction, 50);
+
+        addParameter("sa", socialAction);
+
+        return this;
+    }
+
+    /**
+     * Social Action Target
+     *
+     * Required for social hit type.
+     *
+     * Specifies the target of a social interaction. This value is typically a URL but can be any text.
+     *
+     * Example value: http://foo.com
+     * Example usage: st=http%3A%2F%2Ffoo.com
+     */
+    public QueryBuilder withSt (String socialActionTarget) {
+
+        checkSizeOf("socialActionTarget", socialActionTarget, 2048);
+
+        addParameter("st", socialActionTarget);
+
+        return this;
+    }
+
+    /**
+     * User timing category
+     * 
+     * Required for timing hit type.
+     *
+     * Specifies the user timing category.
+     *
+     * Example value: category
+     * Example usage: utc=category
+     */
+    public QueryBuilder withUtc (String userTimingCategory) {
+
+        checkSizeOf("userTimingCategory", userTimingCategory, 150);
+
+        addParameter("utc", userTimingCategory);
+
+        return this;
+    }
+
+    /**
+     * User timing variable name
+     *
+     * Required for timing hit type.
+     *
+     * Specifies the user timing variable.
+     *
+     * Example value: lookup
+     * Example usage: utv=lookup
+     */
+    public QueryBuilder withUtv (String userTimingVariableName) {
+
+        checkSizeOf("userTimingVariableName", userTimingVariableName, 500);
+
+        addParameter("utv", userTimingVariableName);
+
+        return this;
+    }
+
+    /**
+     * User timing time
+     *
+     * Required for timing hit type.
+     *
+     * Specifies the user timing value. The value is in milliseconds.
+     *
+     * Example value: 123
+     * Example usage: utt=123
+     */
+    public QueryBuilder withUtt (long userTimingTime) {
+
+        assertNotNegative("userTimingTime", userTimingTime);
+
+        addParameter("utt", userTimingTime);
+
+        return this;
+    }
+
+    /**
+     * User timing label
+     *
+     * Optional.
+     *
+     * Specifies the user timing label.
+     *
+     * Example value: label
+     * Example usage: utl=label
+     */
+    public QueryBuilder withUtl (String userTimingLabel) {
+
+        checkSizeOf("userTimingLabel", userTimingLabel, 500);
+
+        addParameter("utv", userTimingLabel);
+
+        return this;
+    }
+
+    /**
+     * Page Load Time
+     *
+     * Optional.
+     *
+     * Specifies the time it took for a page to load. The value is in milliseconds.
+     *
+     * Example value: 3554
+     * Example usage: plt=3554
+     */
+    public QueryBuilder withPlt (long pageLoadTime) {
+
+        assertNotNegative("pageLoadTime", pageLoadTime);
+
+        addParameter("plt", pageLoadTime);
+
+        return this;
+    }
+
+    /**
+     * DNS Time
+     *
+     * Optional.
+     *
+     * Specifies the time it took to do a DNS lookup.The value is in milliseconds.
+     *
+     * Example value: 43
+     * Example usage: dns=43
+     */
+    public QueryBuilder withDns (long dnsTime) {
+
+        assertNotNegative("dnsTime", dnsTime);
+
+        addParameter("dns", dnsTime);
+
+        return this;
+    }
+
+    /**
+     * Page Download Time
+     *
+     * Optional.
+     *
+     * Specifies the time it took for the page to be downloaded. The value is in milliseconds.
+     *
+     * Example value: 500
+     * Example usage: pdt=500
+     */
+    public QueryBuilder withPdt (long pageDownloadTime) {
+
+        assertNotNegative("pageDownloadTime", pageDownloadTime);
+
+        addParameter("pdt", pageDownloadTime);
+
+        return this;
+    }
+
+    /**
+     * Redirect Response Time
+     *
+     * Optional.
+     *
+     * Specifies the time it took for any redirects to happen. The value is in milliseconds.
+     *
+     * Example value: 500
+     * Example usage: rrt=500
+     */
+    public QueryBuilder withRrt (long redirectResponseTime) {
+
+        assertNotNegative("redirectResponseTime", redirectResponseTime);
+
+        addParameter("rrt", redirectResponseTime);
+
+        return this;
+    }
+
+    /**
+     * TCP Connect Time
+     *
+     * Optional.
+     *
+     * Specifies the time it took for a TCP connection to be made. The value is in milliseconds.
+     *
+     * Example value: 500
+     * Example usage: tcp=500
+     */
+    public QueryBuilder withTcp (long tcpConnectTime) {
+
+        assertNotNegative("tcpConnectTime", tcpConnectTime);
+
+        addParameter("tcp", tcpConnectTime);
+
+        return this;
+    }
+
+    /**
+     * Server Response Time
+     *
+     * Optional.
+     *
+     * Specifies the time it took for the server to respond after the connect time. The value is in milliseconds.
+     *
+     * Example value: 500
+     * Example usage: srt=500
+     */
+    public QueryBuilder withSrt (long serverResponseTime) {
+
+        assertNotNegative("serverResponseTime", serverResponseTime);
+
+        addParameter("srt", serverResponseTime);
+
+        return this;
+    }
+
+    /**
+     * DOM Interactive Time
+     *
+     * Optional.
+     *
+     * Specifies the time it took for Document.readyState to be 'interactive'. The value is in milliseconds.
+     *
+     * Example value: 500
+     * Example usage: dit=500
+     */
+    public QueryBuilder withDit (long domInteractiveTime) {
+
+        assertNotNegative("domInteractiveTime", domInteractiveTime);
+
+        addParameter("dit", domInteractiveTime);
+
+        return this;
+    }
+
+    /**
+     * Content Load Time
+     *
+     * Optional.
+     *
+     * Specifies the time it took for the DOMContentLoaded Event to fire. The value is in milliseconds.
+     *
+     * Example value: 500
+     * Example usage: clt=500
+     */
+    public QueryBuilder withClt (long contentLoadTime) {
+
+        assertNotNegative("contentLoadTime", contentLoadTime);
+
+        addParameter("clt", contentLoadTime);
+
+        return this;
+    }
+
+    /**
+     * Exception Description
+     *
+     * Optional.
+     *
+     * Specifies the description of an exception.
+     *
+     * Example value: DatabaseError
+     * Example usage: exd=DatabaseError
+     */
+    public QueryBuilder withExd (String exceptionDescription) {
+
+        checkSizeOf("exceptionDescription", exceptionDescription, 150);
+
+        addParameter("exd", exceptionDescription);
+
+        return this;
+    }
+
+    /**
+     * Is Exception Fatal?
+     *
+     * Optional.
+     *
+     * Specifies whether the exception was fatal.
+     *
+     * Example value: 0
+     * Example usage: exf=0
+     */
+    public QueryBuilder withExf (boolean exceptionFatal) {
+
+        addParameter("exf", asBoolean(exceptionFatal));
+
+        return this;
+    }
+
+    /**
+     * Custom Dimension
+     *
+     * Optional.
+     *
+     * Each custom dimension has an associated index. There is a maximum of 20 custom dimensions (200 for Analytics 360
+     * accounts). The dimension index must be a positive integer between 1 and 200, inclusive.
+     *
+     * Example value: Sports
+     * Example usage: cd1=Sports
+     */
+    public QueryBuilder withCdX (int dimensionIndex, String customDimension) {
+
+        assertBetween("dimensionIndex", 1, 200, dimensionIndex);
+
+        addParameter("cd" + dimensionIndex, customDimension);
+
+        return this;
+    }
+
+    /**
+     * Custom Metric
+     *
+     * Optional.
+     *
+     * Each custom metric has an associated index. There is a maximum of 20 custom metrics (200 for Analytics 360
+     * accounts). The metric index must be a positive integer between 1 and 200, inclusive.
+     *
+     * Example value: 47
+     * Example usage: cm1=47
+     */
+    public QueryBuilder withCmX (int metricIndex, Number customMetric) {
+
+        assertBetween("metricIndex", 1, 200, metricIndex);
+
+        addParameter("cm" + metricIndex, customMetric);
+
+        return this;
+    }
+
+    /**
+     * Experiment ID
+     *
+     * Optional.
+     *
+     * This parameter specifies that this user has been exposed to an experiment with the given ID. It should be sent in
+     * conjunction with the Experiment Variant parameter.
+     *
+     * Example value: Qp0gahJ3RAO3DJ18b0XoUQ
+     * Example usage: xid=Qp0gahJ3RAO3DJ18b0XoUQ
+     */
+    public QueryBuilder withXid (String experimentID) {
+
+    	checkSizeOf("experimentID", experimentID, 40);
+
+        addParameter("xid", experimentID);
+
+        return this;
+    }
+
+    /**
+     * Experiment Variant
+     *
+     * Optional.
+     *
+     * This parameter specifies that this user has been exposed to a particular variation of an experiment. It should be
+     * sent in conjunction with the Experiment ID parameter.
+     *
+     * Example value: 1
+     * Example usage: xvar=1
+     */
+    public QueryBuilder withXvar (String experimentVariant) {
+
+        addParameter("xvar", experimentVariant);
+
+        return this;
+    }
 
     @Override
     protected String getKey() {
