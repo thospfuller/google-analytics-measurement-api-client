@@ -10,9 +10,9 @@ import org.springframework.core.NestedRuntimeException;
  */
 public class NegativeValueException extends NestedRuntimeException {
 
-    private static final long serialVersionUID = -1375588831476282063L;
+    private static final long serialVersionUID = -1404957016348592787L;
 
-    public NegativeValueException (String name, int value) {
+    public NegativeValueException (String name, Number value) {
         super ("The variable/parameter with name " + name + " has a value " + value + " that is less than zero.");
     }
 }
