@@ -30,12 +30,56 @@ public class QueryBuilderTest {
 
     @Test
     public void testCheckSizeOf() {
-        QueryBuilder.checkSizeOf("foo", "foobar", 7);
+    	queryBuilder.checkSizeOf("foo", "foobar", 7);
     }
 
     @Test(expected=MaxLengthInBytesExceededException.class)
     public void testCheckSizeOfShouldThrowAnException() {
-        QueryBuilder.checkSizeOf("foo", "foobar", 3);
+    	queryBuilder.checkSizeOf("foo", "foobar", 3);
+    }
+
+    static String generateStringOfSize(int byteSize) {
+
+    	StringBuffer buffer = new StringBuffer(byteSize);
+
+    	for (int ctr = 0; ctr < byteSize; ctr++)
+    		buffer.append("X");
+
+    	return buffer.toString();
+    }
+
+    @Test
+    public void testWithAid() {
+
+        queryBuilder.withAid("123");
+
+        assertEquals("http://www.google-analytics.com/collect?aid=123", queryBuilder.getEscapedURI());
+    }
+
+    @Test(expected=MaxLengthInBytesExceededException.class)
+    public void testWithAidSizeOOB() {
+        queryBuilder.withAid(generateStringOfSize(151));
+    }
+
+    @Test
+    public void testWithAiid() {
+
+        queryBuilder.withAiid("123");
+
+        assertEquals("http://www.google-analytics.com/collect?aiid=123", queryBuilder.getEscapedURI());
+    }
+
+    @Test(expected=MaxLengthInBytesExceededException.class)
+    public void testWithAiidSizeOOB() {
+        queryBuilder.withAiid(generateStringOfSize(151));
+    }
+
+    @Test
+    public void testWithAip() {
+
+        queryBuilder.withAip(true);
+
+        assertEquals("http://www.google-analytics.com/collect?aip=1", queryBuilder.getEscapedURI());
     }
 
     @Test
@@ -45,5 +89,4 @@ public class QueryBuilderTest {
 
         assertEquals("http://www.google-analytics.com/collect?v=123", queryBuilder.getEscapedURI());
     }
-
 }
