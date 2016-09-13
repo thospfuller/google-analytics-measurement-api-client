@@ -2,6 +2,7 @@ package com.coherentlogic.gama.client.core.builders;
 
 import java.math.BigDecimal;
 import java.net.URI;
+import java.text.MessageFormat;
 import java.util.UUID;
 
 import javax.ws.rs.core.UriBuilder;
@@ -11,6 +12,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 import com.coherentlogic.coherent.data.model.core.builders.rest.AbstractRESTQueryBuilder;
@@ -19,6 +22,7 @@ import com.coherentlogic.coherent.data.model.core.util.WelcomeMessage;
 import com.coherentlogic.gama.client.core.exceptions.InvalidQueueTime;
 import com.coherentlogic.gama.client.core.exceptions.MaxLengthInBytesExceededException;
 import com.coherentlogic.gama.client.core.exceptions.NegativeValueException;
+import com.coherentlogic.gama.client.core.exceptions.PostFailedException;
 import com.coherentlogic.gama.client.core.exceptions.ValueOutOfBoundsException;
 
 /**
@@ -2134,6 +2138,8 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
         return this;
     }
 
+    public static final String IL_X_PI_Y_CD_Z = "il{0}pi{1}cd{2}";
+
     /**
      * Product Impression Custom Dimension
      *
@@ -2158,10 +2164,15 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
         assertBetween("productIndex", 1, 200, productIndex);
         assertBetween("dimensionIndex", 1, 200, dimensionIndex);
 
-        addParameter("il" + listIndex + "pi" + productIndex + "cd" + dimensionIndex, productImpressionCustomDimension);
+        addParameter(
+            MessageFormat.format(IL_X_PI_Y_CD_Z, listIndex, productIndex, dimensionIndex),
+            productImpressionCustomDimension
+        );
 
         return this;
     }
+
+    public static final String IL_X_PI_Y_CM = "il{0}pi{1}cm{2}";
 
     /**
      * Product Impression Custom Metric
@@ -2186,10 +2197,15 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
         assertBetween("productIndex", 1, 200, productIndex);
         assertBetween("metricIndex", 1, 200, metricIndex);
 
-        addParameter("il" + listIndex + "pi" + productIndex + "cm" + metricIndex, productImpressionCustomMetric);
+        addParameter(
+            MessageFormat.format(IL_X_PI_Y_CM, listIndex, productIndex, metricIndex),
+            productImpressionCustomMetric
+        );
 
         return this;
     }
+
+    public static final String PROMO_N_ID = "promo{0}id";
 
     /**
      * Promotion ID
@@ -2208,10 +2224,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
     ) {
         assertBetween("promoIndex", 1, 200, promoIndex);
 
-        addParameter("promo" + promoIndex + "id", promotionID);
+        addParameter(MessageFormat.format(PROMO_N_ID, promoIndex), promotionID);
 
         return this;
     }
+
+    public static final String PROMO_N_NM = "promo{0}nm";
 
     /**
      * Promotion Name
@@ -2230,10 +2248,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
     ) {
         assertBetween("promoIndex", 1, 200, promoIndex);
 
-        addParameter("promo" + promoIndex + "nm", promotionName);
+        addParameter(MessageFormat.format(PROMO_N_NM, promoIndex), promotionName);
 
         return this;
     }
+
+    public static final String PROMO_N_CR = "promo{0}cr";
 
     /**
      * Promotion Creative
@@ -2252,10 +2272,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
     ) {
         assertBetween("promoIndex", 1, 200, promoIndex);
 
-        addParameter("promo" + promoIndex + "cr", promotionCreative);
+        addParameter(MessageFormat.format(PROMO_N_CR, promoIndex), promotionCreative);
 
         return this;
     }
+
+    public static final String PROMO_N_PS = "promo{0}ps";
 
     /**
      * Promotion Position
@@ -2274,10 +2296,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
     ) {
         assertBetween("promoIndex", 1, 200, promoIndex);
 
-        addParameter("promo" + promoIndex + "ps", promotionPosition);
+        addParameter(MessageFormat.format(PROMO_N_PS, promoIndex), promotionPosition);
 
         return this;
     }
+
+    public static final String PROMOA = "promoa";
 
     /**
      * Promotion Action
@@ -2293,10 +2317,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      */
     public QueryBuilder withPromoa (String promotionAction) {
 
-        addParameter("promoa", promotionAction);
+        addParameter(PROMOA, promotionAction);
 
         return this;
     }
+
+    public static final String SN = "sn";
 
     /**
      * Social Network
@@ -2312,10 +2338,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
 
         checkSizeOf("socialNetwork", socialNetwork, 50);
 
-        addParameter("sn", socialNetwork);
+        addParameter(SN, socialNetwork);
 
         return this;
     }
+
+    public static final String SA = "sa";
 
     /**
      * Social Action
@@ -2332,10 +2360,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
 
         checkSizeOf("socialAction", socialAction, 50);
 
-        addParameter("sa", socialAction);
+        addParameter(SA, socialAction);
 
         return this;
     }
+
+    public static final String ST = "st";
 
     /**
      * Social Action Target
@@ -2351,10 +2381,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
 
         checkSizeOf("socialActionTarget", socialActionTarget, 2048);
 
-        addParameter("st", socialActionTarget);
+        addParameter(ST, socialActionTarget);
 
         return this;
     }
+
+    public static final String UTC = "utc";
 
     /**
      * User timing category
@@ -2370,10 +2402,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
 
         checkSizeOf("userTimingCategory", userTimingCategory, 150);
 
-        addParameter("utc", userTimingCategory);
+        addParameter(UTC, userTimingCategory);
 
         return this;
     }
+
+    public static final String UTV = "utv";
 
     /**
      * User timing variable name
@@ -2389,10 +2423,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
 
         checkSizeOf("userTimingVariableName", userTimingVariableName, 500);
 
-        addParameter("utv", userTimingVariableName);
+        addParameter(UTV, userTimingVariableName);
 
         return this;
     }
+
+    public static final String UTT = "utt";
 
     /**
      * User timing time
@@ -2408,10 +2444,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
 
         assertNotNegative("userTimingTime", userTimingTime);
 
-        addParameter("utt", userTimingTime);
+        addParameter(UTT, userTimingTime);
 
         return this;
     }
+
+    public static final String UTL = "utl";
 
     /**
      * User timing label
@@ -2427,10 +2465,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
 
         checkSizeOf("userTimingLabel", userTimingLabel, 500);
 
-        addParameter("utv", userTimingLabel);
+        addParameter(UTL, userTimingLabel);
 
         return this;
     }
+
+    public static final String PLT = "plt";
 
     /**
      * Page Load Time
@@ -2451,6 +2491,8 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
         return this;
     }
 
+    public static final String DNS = "dns";
+
     /**
      * DNS Time
      *
@@ -2465,10 +2507,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
 
         assertNotNegative("dnsTime", dnsTime);
 
-        addParameter("dns", dnsTime);
+        addParameter(DNS, dnsTime);
 
         return this;
     }
+
+    public static final String PDT = "pdt";
 
     /**
      * Page Download Time
@@ -2484,10 +2528,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
 
         assertNotNegative("pageDownloadTime", pageDownloadTime);
 
-        addParameter("pdt", pageDownloadTime);
+        addParameter(PDT, pageDownloadTime);
 
         return this;
     }
+
+    public static final String RRT = "rrt";
 
     /**
      * Redirect Response Time
@@ -2503,10 +2549,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
 
         assertNotNegative("redirectResponseTime", redirectResponseTime);
 
-        addParameter("rrt", redirectResponseTime);
+        addParameter(RRT, redirectResponseTime);
 
         return this;
     }
+
+    public static final String TCP = "tcp";
 
     /**
      * TCP Connect Time
@@ -2522,10 +2570,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
 
         assertNotNegative("tcpConnectTime", tcpConnectTime);
 
-        addParameter("tcp", tcpConnectTime);
+        addParameter(TCP, tcpConnectTime);
 
         return this;
     }
+
+    public static final String SRT = "srt";
 
     /**
      * Server Response Time
@@ -2541,10 +2591,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
 
         assertNotNegative("serverResponseTime", serverResponseTime);
 
-        addParameter("srt", serverResponseTime);
+        addParameter(SRT, serverResponseTime);
 
         return this;
     }
+
+    public static final String DIT = "dit";
 
     /**
      * DOM Interactive Time
@@ -2560,10 +2612,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
 
         assertNotNegative("domInteractiveTime", domInteractiveTime);
 
-        addParameter("dit", domInteractiveTime);
+        addParameter(DIT, domInteractiveTime);
 
         return this;
     }
+
+    public static final String CLT = "clt";
 
     /**
      * Content Load Time
@@ -2579,10 +2633,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
 
         assertNotNegative("contentLoadTime", contentLoadTime);
 
-        addParameter("clt", contentLoadTime);
+        addParameter(CLT, contentLoadTime);
 
         return this;
     }
+
+    public static final String EXD = "exd";
 
     /**
      * Exception Description
@@ -2598,10 +2654,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
 
         checkSizeOf("exceptionDescription", exceptionDescription, 150);
 
-        addParameter("exd", exceptionDescription);
+        addParameter(EXD, exceptionDescription);
 
         return this;
     }
+
+    public static final String EXF = "exf";
 
     /**
      * Is Exception Fatal?
@@ -2615,10 +2673,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      */
     public QueryBuilder withExf (boolean exceptionFatal) {
 
-        addParameter("exf", asBoolean(exceptionFatal));
+        addParameter(EXF, asBoolean(exceptionFatal));
 
         return this;
     }
+
+    public static final String CDX = "cd{0}";
 
     /**
      * Custom Dimension
@@ -2635,10 +2695,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
 
         assertBetween("dimensionIndex", 1, 200, dimensionIndex);
 
-        addParameter("cd" + dimensionIndex, customDimension);
+        addParameter(MessageFormat.format(CDX, dimensionIndex), customDimension);
 
         return this;
     }
+
+    public static final String CMX = "cm{0}";
 
     /**
      * Custom Metric
@@ -2655,10 +2717,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
 
         assertBetween("metricIndex", 1, 200, metricIndex);
 
-        addParameter("cm" + metricIndex, customMetric);
+        addParameter(MessageFormat.format(CMX, metricIndex), customMetric);
 
         return this;
     }
+
+    public static final String XID = "xid";
 
     /**
      * Experiment ID
@@ -2675,10 +2739,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
 
         checkSizeOf("experimentID", experimentID, 40);
 
-        addParameter("xid", experimentID);
+        addParameter(XID, experimentID);
 
         return this;
     }
+
+    public static final String XVAR = "xvar";
 
     /**
      * Experiment Variant
@@ -2693,7 +2759,7 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      */
     public QueryBuilder withXvar (String experimentVariant) {
 
-        addParameter("xvar", experimentVariant);
+        addParameter(XVAR, experimentVariant);
 
         return this;
     }
@@ -2721,10 +2787,16 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
             type
         );
 
+        ResponseEntity<T> responseEntity = (ResponseEntity<T>) response;
+
+        if (!HttpStatus.OK.equals(responseEntity.getStatusCode()))
+            throw new PostFailedException("The post failed for the URI " + uri +
+                " (http status: " + responseEntity.getStatusCodeValue() + ")");
+
         return response.getBody();
     }
 
-    public String doPost () {
-        return doGet(String.class);
+    public ResponseEntity<?> doPost () {
+        return doGet(ResponseEntity.class);
     }
 }
