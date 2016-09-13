@@ -1692,6 +1692,8 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
         return this;
     }
 
+    public static final String PA = "pa";
+
     /**
      * Product Action
      *
@@ -1706,10 +1708,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      */
     public QueryBuilder withPa (String productAction) {
 
-        addParameter("pa", productAction);
+        addParameter(PA, productAction);
 
         return this;
     }
+
+    public static final String DETAIL = "detail";
 
     /**
      * Product Action
@@ -1724,8 +1728,10 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      * Example usage: pa=detail
      */
     public QueryBuilder withPaAsDetail () {
-        return withPa("detail");
+        return withPa(DETAIL);
     }
+
+    public static final String CLICK = "click";
 
     /**
      * Product Action
@@ -1740,8 +1746,10 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      * Example usage: pa=detail
      */
     public QueryBuilder withPaAsClick () {
-        return withPa("click");
+        return withPa(CLICK);
     }
+
+    public static final String ADD = "add";
 
     /**
      * Product Action
@@ -1756,8 +1764,10 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      * Example usage: pa=detail
      */
     public QueryBuilder withPaAsAdd () {
-        return withPa("add");
+        return withPa(ADD);
     }
+
+    public static final String REMOVE = "remove";
 
     /**
      * Product Action
@@ -1772,8 +1782,10 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      * Example usage: pa=detail
      */
     public QueryBuilder withPaAsRemove () {
-        return withPa("remove");
+        return withPa(REMOVE);
     }
+
+    public static final String CHECKOUT = "checkout";
 
     /**
      * Product Action
@@ -1788,8 +1800,10 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      * Example usage: pa=detail
      */
     public QueryBuilder withPaAsCheckout () {
-        return withPa("checkout");
+        return withPa(CHECKOUT);
     }
+
+    public static final String CHECKOUT_OPTION = "checkout_option";
 
     /**
      * Product Action
@@ -1804,8 +1818,10 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      * Example usage: pa=detail
      */
     public QueryBuilder withPaAsCheckoutOption () {
-        return withPa("checkout_option");
+        return withPa(CHECKOUT_OPTION);
     }
+
+    public static final String PURCHASE = "purchase";
 
     /**
      * Product Action
@@ -1820,8 +1836,10 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      * Example usage: pa=detail
      */
     public QueryBuilder withPaAsPurchase () {
-        return withPa("purchase");
+        return withPa(PURCHASE);
     }
+
+    public static final String REFUND = "refund";
 
     /**
      * Product Action
@@ -1836,7 +1854,7 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      * Example usage: pa=detail
      */
     public QueryBuilder withPaAsRefund () {
-        return withPa("refund");
+        return withPa(REFUND);
     }
 
     // Note that the GAM documentation has ti here too but this parameter is mentioned already earlier in the doc hence
@@ -1850,6 +1868,8 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
 
     // Note that the GAM documentation has tt here too but this parameter is mentioned already earlier in the doc hence
     // we have implemented this already.
+
+    public static final String TS = "ts";
 
     /**
      * Shipping
@@ -1865,7 +1885,7 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      */
     public QueryBuilder withTs (String shipping) {
 
-        addParameter("ts", shipping);
+        addParameter(TS, shipping);
 
         return this;
     }
@@ -1884,10 +1904,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      */
     public QueryBuilder withTs (BigDecimal shipping) {
 
-        addParameter("ts", shipping);
+        addParameter(TS, shipping);
 
         return this;
     }
+
+    public static final String TCC = "tcc";
 
     /**
      * Coupon Code
@@ -1903,10 +1925,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      */
     public QueryBuilder withTcc (String couponCode) {
 
-        addParameter("tcc", couponCode);
+        addParameter(TCC, couponCode);
 
         return this;
     }
+
+    public static final String PAL = "pal";
 
     /**
      * Product Action List
@@ -1922,10 +1946,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      */
     public QueryBuilder withPal (String productActionList) {
 
-        addParameter("pal", productActionList);
+        addParameter(PAL, productActionList);
 
         return this;
     }
+
+    public static final String COS = "cos";
 
     /**
      * Checkout Step
@@ -1940,10 +1966,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      */
     public QueryBuilder withCos (int checkoutStep) {
 
-        addParameter("cos", checkoutStep);
+        addParameter(COS, checkoutStep);
 
         return this;
     }
+
+    public static final String COL = "col";
 
     /**
      * Checkout Step Option
@@ -1959,10 +1987,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      */
     public QueryBuilder withCol (String checkoutStepOption) {
 
-        addParameter("col", checkoutStepOption);
+        addParameter(COL, checkoutStepOption);
 
         return this;
     }
+
+    public static final String IL_X_NM = "il{0}nm";
 
     /**
      * Product Impression List Name
@@ -1979,10 +2009,15 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
 
         assertBetween("listIndex", 1, 200, listIndex);
 
-        addParameter("il" + listIndex + "nm", productImpressionListName);
+        addParameter(
+        	MessageFormat.format(IL_X_NM, listIndex),
+        	productImpressionListName
+        );
 
         return this;
     }
+
+    public static final String IL_X_PI_Y_ID = "il{0}pi{1}id";
 
     /**
      * Product Impression SKU
@@ -2001,10 +2036,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
         assertBetween("listIndex", 1, 200, listIndex);
         assertBetween("productIndex", 1, 200, productIndex);
 
-        addParameter("il" + listIndex + "pi" + productIndex + "id", productImpressionSKU);
+        addParameter(MessageFormat.format(IL_X_PI_Y_ID, listIndex, productIndex), productImpressionSKU);
 
         return this;
     }
+
+    public static final String IL_X_PI_Y_NM = "il{0}pi{1}nm";
 
     /**
      * Product Impression Name
@@ -2023,10 +2060,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
         assertBetween("listIndex", 1, 200, listIndex);
         assertBetween("productIndex", 1, 200, productIndex);
 
-        addParameter("il" + listIndex + "pi" + productIndex + "nm", productImpressionName);
+        addParameter(MessageFormat.format(IL_X_PI_Y_NM, listIndex, productIndex), productImpressionName);
 
         return this;
     }
+
+    public static final String IL_X_PI_Y_BR = "il{0}pi{1}br";
 
     /**
      * Product Impression Brand
@@ -2045,10 +2084,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
         assertBetween("listIndex", 1, 200, listIndex);
         assertBetween("productIndex", 1, 200, productIndex);
 
-        addParameter("il" + listIndex + "pi" + productIndex + "br", productImpressionBrand);
+        addParameter(MessageFormat.format(IL_X_PI_Y_BR, listIndex, productIndex), productImpressionBrand);
 
         return this;
     }
+
+    public static final String IL_X_PI_Y_CA = "il{0}pi{1}ca";
 
     /**
      * Product Impression Category
@@ -2067,10 +2108,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
         assertBetween("listIndex", 1, 200, listIndex);
         assertBetween("productIndex", 1, 200, productIndex);
 
-        addParameter("il" + listIndex + "pi" + productIndex + "ca", productImpressionBrand);
+        addParameter(MessageFormat.format(IL_X_PI_Y_CA, listIndex, productIndex), productImpressionBrand);
 
         return this;
     }
+
+    public static final String IL_X_PI_Y_VA = "il{0}pi{1}va";
 
     /**
      * Product Impression Variant
@@ -2089,10 +2132,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
         assertBetween("listIndex", 1, 200, listIndex);
         assertBetween("productIndex", 1, 200, productIndex);
 
-        addParameter("il" + listIndex + "pi" + productIndex + "va", productImpressionVariant);
+        addParameter(MessageFormat.format(IL_X_PI_Y_VA, listIndex, productIndex), productImpressionVariant);
 
         return this;
     }
+
+    public static final String IL_X_PI_Y_PS = "il{0}pi{1}ps";
 
     /**
      * Product Impression Position
@@ -2111,10 +2156,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
         assertBetween("listIndex", 1, 200, listIndex);
         assertBetween("productIndex", 1, 200, productIndex);
 
-        addParameter("il" + listIndex + "pi" + productIndex + "ps", productImpressionPosition);
+        addParameter(MessageFormat.format(IL_X_PI_Y_PS, listIndex, productIndex), productImpressionPosition);
 
         return this;
     }
+
+    public static final String IL_X_PI_Y_PR = "il{0}pi{1}pr";
 
     /**
      * Product Impression Price
@@ -2133,7 +2180,7 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
         assertBetween("listIndex", 1, 200, listIndex);
         assertBetween("productIndex", 1, 200, productIndex);
 
-        addParameter("il" + listIndex + "pi" + productIndex + "pr", productImpressionPrice);
+        addParameter(MessageFormat.format(IL_X_PI_Y_PR, listIndex, productIndex), productImpressionPrice);
 
         return this;
     }
