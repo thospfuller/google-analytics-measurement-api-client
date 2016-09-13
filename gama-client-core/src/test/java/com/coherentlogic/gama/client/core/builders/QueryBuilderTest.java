@@ -1,6 +1,8 @@
 package com.coherentlogic.gama.client.core.builders;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+
+import java.math.BigDecimal;
 
 import org.junit.After;
 import org.junit.Before;
@@ -93,6 +95,182 @@ public class QueryBuilderTest {
     }
 
     // -----
+
+    @Test
+    public void testWithPa() {
+
+        queryBuilder.withPa(FOO);
+
+        assertEquals("http://www.google-analytics.com/collect?pa=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithPaAsAdd() {
+
+        queryBuilder.withPaAsAdd();
+
+        assertEquals("http://www.google-analytics.com/collect?pa=add", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithPaAsCheckout() {
+
+        queryBuilder.withPaAsCheckout();
+
+        assertEquals("http://www.google-analytics.com/collect?pa=checkout", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithPaAsCheckoutOption() {
+
+        queryBuilder.withPaAsCheckoutOption();
+
+        assertEquals("http://www.google-analytics.com/collect?pa=checkout_option", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithPaAsClick() {
+
+        queryBuilder.withPaAsClick();
+
+        assertEquals("http://www.google-analytics.com/collect?pa=click", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithPaAsDetail() {
+
+        queryBuilder.withPaAsDetail();
+
+        assertEquals("http://www.google-analytics.com/collect?pa=detail", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithPaAsPurchase() {
+
+        queryBuilder.withPaAsPurchase();
+
+        assertEquals("http://www.google-analytics.com/collect?pa=purchase", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithPaAsRefund() {
+
+        queryBuilder.withPaAsRefund();
+
+        assertEquals("http://www.google-analytics.com/collect?pa=refund", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithPaAsRemove() {
+
+        queryBuilder.withPaAsRemove();
+
+        assertEquals("http://www.google-analytics.com/collect?pa=remove", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithTsWithBigDecimal() {
+
+        queryBuilder.withTs(new BigDecimal ("123.45"));
+
+        assertEquals("http://www.google-analytics.com/collect?ts=123.45", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithTsWithString() {
+
+        queryBuilder.withTs("123.45");
+
+        assertEquals("http://www.google-analytics.com/collect?ts=123.45", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithTcc() {
+
+        queryBuilder.withTcc(FOO);
+
+        assertEquals("http://www.google-analytics.com/collect?tcc=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithPal() {
+
+        queryBuilder.withPal(FOO);
+
+        assertEquals("http://www.google-analytics.com/collect?pal=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithCos() {
+
+        queryBuilder.withCos(123);
+
+        assertEquals("http://www.google-analytics.com/collect?cos=123", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithCol() {
+
+        queryBuilder.withCol(FOO);
+
+        assertEquals("http://www.google-analytics.com/collect?col=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithIlXNm() {
+
+        queryBuilder.withIlXNm(123, FOO);
+
+        assertEquals("http://www.google-analytics.com/collect?il123nm=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithIlXPiYId() {
+
+        queryBuilder.withIlXPiYId(123, 456, FOO);
+
+        assertEquals("http://www.google-analytics.com/collect?il123pi456id=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithIlXPiYNm() {
+
+        queryBuilder.withIlXPiYNm(123, 456, FOO);
+
+        assertEquals("http://www.google-analytics.com/collect?il123pi456nm=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithIlXPiYBr() {
+
+        queryBuilder.withIlXPiYBr(123, 456, FOO);
+
+        assertEquals("http://www.google-analytics.com/collect?il123pi456br=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithIlXPiYCa() {
+
+        queryBuilder.withIlXPiYCa(123, 456, FOO);
+
+        assertEquals("http://www.google-analytics.com/collect?il123pi456ca=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithIlXPiYVa() {
+
+        queryBuilder.withIlXPiYVa(123, 456, FOO);
+
+        assertEquals("http://www.google-analytics.com/collect?il123pi456va=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithIlXPiYPs() {
+
+        queryBuilder.withIlXPiYPs(123, 456, FOO);
+
+        assertEquals("http://www.google-analytics.com/collect?il123pi456ps=foo", queryBuilder.getEscapedURI());
+    }
 
     @Test
     public void testWithIlXPiYCdZ() {
