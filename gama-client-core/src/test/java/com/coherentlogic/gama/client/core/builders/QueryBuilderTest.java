@@ -19,7 +19,7 @@ import com.coherentlogic.gama.client.core.exceptions.MaxLengthInBytesExceededExc
  */
 public class QueryBuilderTest {
 
-	public static final String FOO = "foo";
+    public static final String FOO = "foo";
 
     private QueryBuilder queryBuilder = null;
 
@@ -35,22 +35,22 @@ public class QueryBuilderTest {
 
     @Test
     public void testCheckSizeOf() {
-    	queryBuilder.checkSizeOf("foo", "foobar", 7);
+        queryBuilder.checkSizeOf("foo", "foobar", 7);
     }
 
     @Test(expected=MaxLengthInBytesExceededException.class)
     public void testCheckSizeOfShouldThrowAnException() {
-    	queryBuilder.checkSizeOf("foo", "foobar", 3);
+        queryBuilder.checkSizeOf("foo", "foobar", 3);
     }
 
     static String generateStringOfSize(int byteSize) {
 
-    	StringBuffer buffer = new StringBuffer(byteSize);
+        StringBuffer buffer = new StringBuffer(byteSize);
 
-    	for (int ctr = 0; ctr < byteSize; ctr++)
-    		buffer.append("X");
+        for (int ctr = 0; ctr < byteSize; ctr++)
+            buffer.append("X");
 
-    	return buffer.toString();
+        return buffer.toString();
     }
 
     @Test
@@ -196,12 +196,22 @@ public class QueryBuilderTest {
         assertEquals("http://www.google-analytics.com/collect?dr=foo", queryBuilder.getEscapedURI());
     }
 
+    @Test(expected=MaxLengthInBytesExceededException.class)
+    public void testWithDrThatExceedsAllowedSize() {
+        queryBuilder.withDr(generateStringOfSize(2049));
+    }
+
     @Test
     public void testWithCn() {
 
         queryBuilder.withCn(FOO);
 
         assertEquals("http://www.google-analytics.com/collect?cn=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test(expected=MaxLengthInBytesExceededException.class)
+    public void testWithCnThatExceedsAllowedSize() {
+        queryBuilder.withCn(generateStringOfSize(101));
     }
 
     @Test
@@ -220,12 +230,22 @@ public class QueryBuilderTest {
         assertEquals("http://www.google-analytics.com/collect?cm=foo", queryBuilder.getEscapedURI());
     }
 
+    @Test(expected=MaxLengthInBytesExceededException.class)
+    public void testWithCmThatExceedsAllowedSize() {
+        queryBuilder.withCm(generateStringOfSize(51));
+    }
+
     @Test
     public void testWithCk() {
 
         queryBuilder.withCk(FOO);
 
         assertEquals("http://www.google-analytics.com/collect?ck=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test(expected=MaxLengthInBytesExceededException.class)
+    public void testWithCkThatExceedsAllowedSize() {
+        queryBuilder.withCk(generateStringOfSize(501));
     }
 
     @Test
@@ -236,12 +256,22 @@ public class QueryBuilderTest {
         assertEquals("http://www.google-analytics.com/collect?cc=foo", queryBuilder.getEscapedURI());
     }
 
+    @Test(expected=MaxLengthInBytesExceededException.class)
+    public void testWithCcThatExceedsAllowedSize() {
+        queryBuilder.withCc(generateStringOfSize(501));
+    }
+
     @Test
     public void testWithCi() {
 
         queryBuilder.withCi(FOO);
 
         assertEquals("http://www.google-analytics.com/collect?ci=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test(expected=MaxLengthInBytesExceededException.class)
+    public void testWithCiThatExceedsAllowedSize() {
+        queryBuilder.withCi(generateStringOfSize(101));
     }
 
     @Test
@@ -268,12 +298,22 @@ public class QueryBuilderTest {
         assertEquals("http://www.google-analytics.com/collect?sr=foo", queryBuilder.getEscapedURI());
     }
 
+    @Test(expected=MaxLengthInBytesExceededException.class)
+    public void testWithSrThatExceedsAllowedSize() {
+        queryBuilder.withSr(generateStringOfSize(21));
+    }
+
     @Test
     public void testWithVp() {
 
         queryBuilder.withVp(FOO);
 
         assertEquals("http://www.google-analytics.com/collect?vp=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test(expected=MaxLengthInBytesExceededException.class)
+    public void testWithVpThatExceedsAllowedSize() {
+        queryBuilder.withVp(generateStringOfSize(21));
     }
 
     @Test
@@ -284,6 +324,11 @@ public class QueryBuilderTest {
         assertEquals("http://www.google-analytics.com/collect?de=foo", queryBuilder.getEscapedURI());
     }
 
+    @Test(expected=MaxLengthInBytesExceededException.class)
+    public void testWithDeThatExceedsAllowedSize() {
+        queryBuilder.withDe(generateStringOfSize(21));
+    }
+
     @Test
     public void testWithSd() {
 
@@ -292,12 +337,22 @@ public class QueryBuilderTest {
         assertEquals("http://www.google-analytics.com/collect?sd=foo", queryBuilder.getEscapedURI());
     }
 
+    @Test(expected=MaxLengthInBytesExceededException.class)
+    public void testWithSdThatExceedsAllowedSize() {
+        queryBuilder.withSd(generateStringOfSize(21));
+    }
+
     @Test
     public void testWithUl() {
 
         queryBuilder.withUl(FOO);
 
         assertEquals("http://www.google-analytics.com/collect?ul=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test(expected=MaxLengthInBytesExceededException.class)
+    public void testWithUlThatExceedsAllowedSize() {
+        queryBuilder.withUl(generateStringOfSize(21));
     }
 
     @Test
@@ -314,6 +369,11 @@ public class QueryBuilderTest {
         queryBuilder.withFl(FOO);
 
         assertEquals("http://www.google-analytics.com/collect?fl=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test(expected=MaxLengthInBytesExceededException.class)
+    public void testWithFlThatExceedsAllowedSize() {
+        queryBuilder.withFl(generateStringOfSize(21));
     }
 
     /**
@@ -343,12 +403,22 @@ public class QueryBuilderTest {
         assertEquals("http://www.google-analytics.com/collect?dl=foo", queryBuilder.getEscapedURI());
     }
 
+    @Test(expected=MaxLengthInBytesExceededException.class)
+    public void testWithDlThatExceedsAllowedSize() {
+        queryBuilder.withDl(generateStringOfSize(2049));
+    }
+
     @Test
     public void testWithDh() {
 
         queryBuilder.withDh(FOO);
 
         assertEquals("http://www.google-analytics.com/collect?dh=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test(expected=MaxLengthInBytesExceededException.class)
+    public void testWithDhThatExceedsAllowedSize() {
+        queryBuilder.withDh(generateStringOfSize(101));
     }
 
     @Test
@@ -359,6 +429,11 @@ public class QueryBuilderTest {
         assertEquals("http://www.google-analytics.com/collect?dp=foo", queryBuilder.getEscapedURI());
     }
 
+    @Test(expected=MaxLengthInBytesExceededException.class)
+    public void testWithDpThatExceedsAllowedSize() {
+        queryBuilder.withDp(generateStringOfSize(2049));
+    }
+
     @Test
     public void testWithDt() {
 
@@ -367,12 +442,22 @@ public class QueryBuilderTest {
         assertEquals("http://www.google-analytics.com/collect?dt=foo", queryBuilder.getEscapedURI());
     }
 
+    @Test(expected=MaxLengthInBytesExceededException.class)
+    public void testWithDtThatExceedsAllowedSize() {
+        queryBuilder.withDt(generateStringOfSize(1501));
+    }
+
     @Test
     public void testWithCd() {
 
         queryBuilder.withCd(FOO);
 
         assertEquals("http://www.google-analytics.com/collect?cd=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test(expected=MaxLengthInBytesExceededException.class)
+    public void testWithCdThatExceedsAllowedSize() {
+        queryBuilder.withCd(generateStringOfSize(2049));
     }
 
     @Test
@@ -391,12 +476,22 @@ public class QueryBuilderTest {
         assertEquals("http://www.google-analytics.com/collect?an=foo", queryBuilder.getEscapedURI());
     }
 
+    @Test(expected=MaxLengthInBytesExceededException.class)
+    public void testWithAnThatExceedsAllowedSize() {
+        queryBuilder.withAn(generateStringOfSize(101));
+    }
+
     @Test
     public void testWithAv() {
 
         queryBuilder.withAv(FOO);
 
         assertEquals("http://www.google-analytics.com/collect?av=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test(expected=MaxLengthInBytesExceededException.class)
+    public void testWithAvThatExceedsAllowedSize() {
+        queryBuilder.withAv(generateStringOfSize(101));
     }
 
     @Test
@@ -407,12 +502,22 @@ public class QueryBuilderTest {
         assertEquals("http://www.google-analytics.com/collect?ec=foo", queryBuilder.getEscapedURI());
     }
 
+    @Test(expected=MaxLengthInBytesExceededException.class)
+    public void testWithEcThatExceedsAllowedSize() {
+        queryBuilder.withEc(generateStringOfSize(151));
+    }
+
     @Test
     public void testWithEa() {
 
         queryBuilder.withEa(FOO);
 
         assertEquals("http://www.google-analytics.com/collect?ea=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test(expected=MaxLengthInBytesExceededException.class)
+    public void testWithElThatExceedsAllowedSize() {
+        queryBuilder.withEl(generateStringOfSize(501));
     }
 
     @Test
@@ -439,12 +544,22 @@ public class QueryBuilderTest {
         assertEquals("http://www.google-analytics.com/collect?ti=foo", queryBuilder.getEscapedURI());
     }
 
+    @Test(expected=MaxLengthInBytesExceededException.class)
+    public void testWithTiThatExceedsAllowedSize() {
+        queryBuilder.withTi(generateStringOfSize(501));
+    }
+
     @Test
     public void testWithTa() {
 
         queryBuilder.withTa(FOO);
 
         assertEquals("http://www.google-analytics.com/collect?ta=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test(expected=MaxLengthInBytesExceededException.class)
+    public void testWithTaThatExceedsAllowedSize() {
+        queryBuilder.withTa(generateStringOfSize(501));
     }
 
     @Test
@@ -461,6 +576,11 @@ public class QueryBuilderTest {
         queryBuilder.withIn(FOO);
 
         assertEquals("http://www.google-analytics.com/collect?in=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test(expected=MaxLengthInBytesExceededException.class)
+    public void testWithInThatExceedsAllowedSize() {
+        queryBuilder.withIn(generateStringOfSize(501));
     }
 
     @Test
@@ -503,12 +623,22 @@ public class QueryBuilderTest {
         assertEquals("http://www.google-analytics.com/collect?ic=foo", queryBuilder.getEscapedURI());
     }
 
+    @Test(expected=MaxLengthInBytesExceededException.class)
+    public void testWithIcThatExceedsAllowedSize() {
+        queryBuilder.withIc(generateStringOfSize(501));
+    }
+
     @Test
     public void testWithIv() {
 
         queryBuilder.withIv(FOO);
 
         assertEquals("http://www.google-analytics.com/collect?iv=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test(expected=MaxLengthInBytesExceededException.class)
+    public void testWithIvThatExceedsAllowedSize() {
+        queryBuilder.withIv(generateStringOfSize(501));
     }
 
     @Test
@@ -519,12 +649,22 @@ public class QueryBuilderTest {
         assertEquals("http://www.google-analytics.com/collect?cu=foo", queryBuilder.getEscapedURI());
     }
 
+    @Test(expected=MaxLengthInBytesExceededException.class)
+    public void testWithCuThatExceedsAllowedSize() {
+        queryBuilder.withCu(generateStringOfSize(501));
+    }
+
     @Test
     public void testWithPrNId() {
 
         queryBuilder.withPrNId(100, FOO);
 
         assertEquals("http://www.google-analytics.com/collect?pr100id=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test(expected=MaxLengthInBytesExceededException.class)
+    public void testWithPrNIdThatExceedsAllowedSize() {
+        queryBuilder.withPrNId(123, generateStringOfSize(501));
     }
 
     @Test
@@ -535,12 +675,22 @@ public class QueryBuilderTest {
         assertEquals("http://www.google-analytics.com/collect?pr100nm=foo", queryBuilder.getEscapedURI());
     }
 
+    @Test(expected=MaxLengthInBytesExceededException.class)
+    public void testWithPrNNmThatExceedsAllowedSize() {
+        queryBuilder.withPrNNm(123, generateStringOfSize(501));
+    }
+
     @Test
     public void testWithPrNBr() {
 
         queryBuilder.withPrNBr(100, FOO);
 
         assertEquals("http://www.google-analytics.com/collect?pr100br=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test(expected=MaxLengthInBytesExceededException.class)
+    public void testWithPrNBrThatExceedsAllowedSize() {
+        queryBuilder.withPrNBr(123, generateStringOfSize(501));
     }
 
     @Test
@@ -559,8 +709,6 @@ public class QueryBuilderTest {
         assertEquals("http://www.google-analytics.com/collect?tr=123.45", queryBuilder.getEscapedURI());
     }
 
-    
-
     @Test
     public void testWithPrNCaWithString() {
 
@@ -569,12 +717,22 @@ public class QueryBuilderTest {
         assertEquals("http://www.google-analytics.com/collect?pr123ca=foo", queryBuilder.getEscapedURI());
     }
 
+    @Test(expected=MaxLengthInBytesExceededException.class)
+    public void testWithPrNCaThatExceedsAllowedSize() {
+        queryBuilder.withPrNCa(123, generateStringOfSize(501));
+    }
+
     @Test
     public void testWithPrNVaWithString() {
 
         queryBuilder.withPrNVa(123, FOO);
 
         assertEquals("http://www.google-analytics.com/collect?pr123va=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test(expected=MaxLengthInBytesExceededException.class)
+    public void testWithPrNVaThatExceedsAllowedSize() {
+        queryBuilder.withPrNVa(123, generateStringOfSize(501));
     }
 
     @Test
@@ -615,6 +773,11 @@ public class QueryBuilderTest {
         queryBuilder.withPrNCc(123, "456");
 
         assertEquals("http://www.google-analytics.com/collect?pr123cc=456", queryBuilder.getEscapedURI());
+    }
+
+    @Test(expected=MaxLengthInBytesExceededException.class)
+    public void testWithPrNCcThatExceedsAllowedSize() {
+        queryBuilder.withPrNCc(123, generateStringOfSize(501));
     }
 
     @Test
@@ -897,12 +1060,22 @@ public class QueryBuilderTest {
         assertEquals("http://www.google-analytics.com/collect?sn=foo", queryBuilder.getEscapedURI());
     }
 
+    @Test(expected=MaxLengthInBytesExceededException.class)
+    public void testWithSnThatExceedsAllowedSize() {
+        queryBuilder.withSn(generateStringOfSize(51));
+    }
+
     @Test
     public void testWithSa() {
 
         queryBuilder.withSa(FOO);
 
         assertEquals("http://www.google-analytics.com/collect?sa=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test(expected=MaxLengthInBytesExceededException.class)
+    public void testWithSaThatExceedsAllowedSize() {
+        queryBuilder.withSa(generateStringOfSize(51));
     }
 
     @Test
@@ -913,6 +1086,11 @@ public class QueryBuilderTest {
         assertEquals("http://www.google-analytics.com/collect?st=foo", queryBuilder.getEscapedURI());
     }
 
+    @Test(expected=MaxLengthInBytesExceededException.class)
+    public void testWithStThatExceedsAllowedSize() {
+        queryBuilder.withSt(generateStringOfSize(2049));
+    }
+
     @Test
     public void testWithUtc() {
 
@@ -921,12 +1099,22 @@ public class QueryBuilderTest {
         assertEquals("http://www.google-analytics.com/collect?utc=foo", queryBuilder.getEscapedURI());
     }
 
+    @Test(expected=MaxLengthInBytesExceededException.class)
+    public void testWithUtcThatExceedsAllowedSize() {
+        queryBuilder.withUtc(generateStringOfSize(151));
+    }
+
     @Test
     public void testWithUtv() {
 
         queryBuilder.withUtv(FOO);
 
         assertEquals("http://www.google-analytics.com/collect?utv=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test(expected=MaxLengthInBytesExceededException.class)
+    public void testWithUtvThatExceedsAllowedSize() {
+        queryBuilder.withUtv(generateStringOfSize(501));
     }
 
     @Test
@@ -943,6 +1131,11 @@ public class QueryBuilderTest {
         queryBuilder.withUtl(FOO);
 
         assertEquals("http://www.google-analytics.com/collect?utl=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test(expected=MaxLengthInBytesExceededException.class)
+    public void testWithUtlThatExceedsAllowedSize() {
+        queryBuilder.withUtl(generateStringOfSize(501));
     }
 
     @Test
@@ -1017,6 +1210,11 @@ public class QueryBuilderTest {
         assertEquals("http://www.google-analytics.com/collect?exd=foo", queryBuilder.getEscapedURI());
     }
 
+    @Test(expected=MaxLengthInBytesExceededException.class)
+    public void testWithExdThatExceedsAllowedSize() {
+        queryBuilder.withExd(generateStringOfSize(151));
+    }
+
     @Test
     public void testWithExf() {
 
@@ -1039,5 +1237,26 @@ public class QueryBuilderTest {
         queryBuilder.withCmX(100, 200);
 
         assertEquals("http://www.google-analytics.com/collect?cm100=200", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithXid() {
+
+        queryBuilder.withXid(FOO);
+
+        assertEquals("http://www.google-analytics.com/collect?xid=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test(expected=MaxLengthInBytesExceededException.class)
+    public void testWithXidThatExceedsAllowedSize() {
+        queryBuilder.withXid(generateStringOfSize(41));
+    }
+
+    @Test
+    public void testWithXvar() {
+
+        queryBuilder.withXvar(FOO);
+
+        assertEquals("http://www.google-analytics.com/collect?xvar=foo", queryBuilder.getEscapedURI());
     }
 }
