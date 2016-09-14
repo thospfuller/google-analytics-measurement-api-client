@@ -170,7 +170,7 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
         return this;
     }
 
-    public static final String V = "v";
+    public static final String V = "v", ONE = "1";
 
     /**
      * Protocol Version
@@ -198,7 +198,7 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      * backwards compatible.
      */
     public QueryBuilder withV1 () {
-        return withV("1");
+        return withV(ONE);
     }
 
     public static final String TID = "tid";
@@ -1331,7 +1331,7 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      */
     public QueryBuilder withTt (BigDecimal transactionTax) {
 
-        addParameter(TT, transactionTax.toString());
+        addParameter(TT, transactionTax);
 
         return this;
     }
@@ -1389,7 +1389,7 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      */
     public QueryBuilder withIp (BigDecimal itemPrice) {
 
-        addParameter(IP, itemPrice.toString());
+        addParameter(IP, itemPrice);
 
         return this;
     }
@@ -1647,9 +1647,8 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
     public QueryBuilder withPrNPr (int productIndexN, BigDecimal value) {
 
         assertBetween("productIndexN", 1, 200, productIndexN);
-        Utils.assertNotNull("value", value);
 
-        addParameter(MessageFormat.format(PR_N_PR, productIndexN), value.toString());
+        addParameter(MessageFormat.format(PR_N_PR, productIndexN), value);
 
         return this;
     }
