@@ -8,6 +8,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.coherentlogic.gama.client.core.exceptions.InvalidQueueTime;
 import com.coherentlogic.gama.client.core.exceptions.MaxLengthInBytesExceededException;
 
 /**
@@ -94,7 +95,471 @@ public class QueryBuilderTest {
         assertEquals("http://www.google-analytics.com/collect?v=123", queryBuilder.getEscapedURI());
     }
 
-    // -----
+    @Test
+    public void testWithTid() {
+
+        queryBuilder.withTid(FOO);
+
+        assertEquals("http://www.google-analytics.com/collect?tid=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithDs() {
+
+        queryBuilder.withDs(FOO);
+
+        assertEquals("http://www.google-analytics.com/collect?ds=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test(expected=InvalidQueueTime.class)
+    public void testWithQtUsingNegativeTime() {
+        queryBuilder.withQt(-1234L);
+    }
+
+    @Test(expected=InvalidQueueTime.class)
+    public void testWithQtUsingZero() {
+        queryBuilder.withQt(0L);
+    }
+
+    @Test
+    public void testWithQt() {
+
+        queryBuilder.withQt(1234L);
+
+        assertEquals("http://www.google-analytics.com/collect?qt=1234", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithZ() {
+
+        queryBuilder.withZ(FOO);
+
+        assertEquals("http://www.google-analytics.com/collect?z=foo", queryBuilder.getEscapedURI());
+    }
+
+    /**
+     * Note we're not testing the withCIDAsRandomUUID method.
+     */
+    @Test
+    public void testWithCID() {
+
+        queryBuilder.withCID(FOO);
+
+        assertEquals("http://www.google-analytics.com/collect?cid=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithUID() {
+
+        queryBuilder.withUID(FOO);
+
+        assertEquals("http://www.google-analytics.com/collect?uid=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithSc() {
+
+        queryBuilder.withSc(FOO);
+
+        assertEquals("http://www.google-analytics.com/collect?sc=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithUip() {
+
+        queryBuilder.withUip(FOO);
+
+        assertEquals("http://www.google-analytics.com/collect?uip=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithUa() {
+
+        queryBuilder.withUa(FOO);
+
+        assertEquals("http://www.google-analytics.com/collect?ua=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithGeoID() {
+
+        queryBuilder.withGeoID(FOO);
+
+        assertEquals("http://www.google-analytics.com/collect?geoid=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithDr() {
+
+        queryBuilder.withDr(FOO);
+
+        assertEquals("http://www.google-analytics.com/collect?dr=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithCn() {
+
+        queryBuilder.withCn(FOO);
+
+        assertEquals("http://www.google-analytics.com/collect?cn=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithCs() {
+
+        queryBuilder.withCs(FOO);
+
+        assertEquals("http://www.google-analytics.com/collect?cs=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithCm() {
+
+        queryBuilder.withCm(FOO);
+
+        assertEquals("http://www.google-analytics.com/collect?cm=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithCk() {
+
+        queryBuilder.withCk(FOO);
+
+        assertEquals("http://www.google-analytics.com/collect?ck=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithCc() {
+
+        queryBuilder.withCc(FOO);
+
+        assertEquals("http://www.google-analytics.com/collect?cc=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithCi() {
+
+        queryBuilder.withCi(FOO);
+
+        assertEquals("http://www.google-analytics.com/collect?ci=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithGclid() {
+
+        queryBuilder.withGclid(FOO);
+
+        assertEquals("http://www.google-analytics.com/collect?gclid=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithDclid() {
+
+        queryBuilder.withDclid(FOO);
+
+        assertEquals("http://www.google-analytics.com/collect?dclid=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithSr() {
+
+        queryBuilder.withSr(FOO);
+
+        assertEquals("http://www.google-analytics.com/collect?sr=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithVp() {
+
+        queryBuilder.withVp(FOO);
+
+        assertEquals("http://www.google-analytics.com/collect?vp=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithDe() {
+
+        queryBuilder.withDe(FOO);
+
+        assertEquals("http://www.google-analytics.com/collect?de=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithSd() {
+
+        queryBuilder.withSd(FOO);
+
+        assertEquals("http://www.google-analytics.com/collect?sd=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithUl() {
+
+        queryBuilder.withUl(FOO);
+
+        assertEquals("http://www.google-analytics.com/collect?ul=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithJe() {
+
+        queryBuilder.withJe(true);
+
+        assertEquals("http://www.google-analytics.com/collect?je=1", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithFl() {
+
+        queryBuilder.withFl(FOO);
+
+        assertEquals("http://www.google-analytics.com/collect?fl=foo", queryBuilder.getEscapedURI());
+    }
+
+    /**
+     * Note we're not testing the withTAsX methods.
+     */
+    @Test
+    public void testWithT() {
+
+        queryBuilder.withT(FOO);
+
+        assertEquals("http://www.google-analytics.com/collect?t=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithNi() {
+
+        queryBuilder.withNi(true);
+
+        assertEquals("http://www.google-analytics.com/collect?ni=1", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithDl() {
+
+        queryBuilder.withDl(FOO);
+
+        assertEquals("http://www.google-analytics.com/collect?dl=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithDh() {
+
+        queryBuilder.withDh(FOO);
+
+        assertEquals("http://www.google-analytics.com/collect?dh=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithDp() {
+
+        queryBuilder.withDp(FOO);
+
+        assertEquals("http://www.google-analytics.com/collect?dp=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithDt() {
+
+        queryBuilder.withDt(FOO);
+
+        assertEquals("http://www.google-analytics.com/collect?dt=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithCd() {
+
+        queryBuilder.withCd(FOO);
+
+        assertEquals("http://www.google-analytics.com/collect?cd=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithLinkid() {
+
+        queryBuilder.withLinkid(FOO);
+
+        assertEquals("http://www.google-analytics.com/collect?linkid=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithAn() {
+
+        queryBuilder.withAn(FOO);
+
+        assertEquals("http://www.google-analytics.com/collect?an=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithAv() {
+
+        queryBuilder.withAv(FOO);
+
+        assertEquals("http://www.google-analytics.com/collect?av=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithEc() {
+
+        queryBuilder.withEc(FOO);
+
+        assertEquals("http://www.google-analytics.com/collect?ec=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithEa() {
+
+        queryBuilder.withEa(FOO);
+
+        assertEquals("http://www.google-analytics.com/collect?ea=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithEl() {
+
+        queryBuilder.withEl(FOO);
+
+        assertEquals("http://www.google-analytics.com/collect?el=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithEv() {
+
+        queryBuilder.withEv(123);
+
+        assertEquals("http://www.google-analytics.com/collect?ev=123", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithTi() {
+
+        queryBuilder.withTi(FOO);
+
+        assertEquals("http://www.google-analytics.com/collect?ti=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithTa() {
+
+        queryBuilder.withTa(FOO);
+
+        assertEquals("http://www.google-analytics.com/collect?ta=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithTt() {
+
+        queryBuilder.withTt(new BigDecimal ("123.45"));
+
+        assertEquals("http://www.google-analytics.com/collect?tt=123.45", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithIn() {
+
+        queryBuilder.withIn(FOO);
+
+        assertEquals("http://www.google-analytics.com/collect?in=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithIpAsString() {
+
+        queryBuilder.withIp(FOO);
+
+        assertEquals("http://www.google-analytics.com/collect?ip=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithIpAsBigDecimal() {
+
+        queryBuilder.withIp(new BigDecimal ("123.45"));
+
+        assertEquals("http://www.google-analytics.com/collect?ip=123.45", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithIqAsString() {
+
+        queryBuilder.withIq(FOO);
+
+        assertEquals("http://www.google-analytics.com/collect?iq=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithIqAsInt() {
+
+        queryBuilder.withIq(123);
+
+        assertEquals("http://www.google-analytics.com/collect?iq=123", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithIc() {
+
+        queryBuilder.withIc(FOO);
+
+        assertEquals("http://www.google-analytics.com/collect?ic=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithIv() {
+
+        queryBuilder.withIv(FOO);
+
+        assertEquals("http://www.google-analytics.com/collect?iv=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithCu() {
+
+        queryBuilder.withCu(FOO);
+
+        assertEquals("http://www.google-analytics.com/collect?cu=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithPrNId() {
+
+        queryBuilder.withPrNId(100, FOO);
+
+        assertEquals("http://www.google-analytics.com/collect?pr100id=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithPrNNm() {
+
+        queryBuilder.withPrNNm(100, FOO);
+
+        assertEquals("http://www.google-analytics.com/collect?pr100nm=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithPrNBr() {
+
+        queryBuilder.withPrNBr(100, FOO);
+
+        assertEquals("http://www.google-analytics.com/collect?pr100br=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithTrAsString() {
+
+        queryBuilder.withTr(FOO);
+
+        assertEquals("http://www.google-analytics.com/collect?tr=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithTrAsBigDecimal() {
+
+        queryBuilder.withTr(new BigDecimal ("123.45"));
+
+        assertEquals("http://www.google-analytics.com/collect?tr=123.45", queryBuilder.getEscapedURI());
+    }
+
+    
 
     @Test
     public void testWithPrNCaWithString() {
