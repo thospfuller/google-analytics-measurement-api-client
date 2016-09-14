@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import com.coherentlogic.gama.client.core.exceptions.InvalidQueueTime;
 import com.coherentlogic.gama.client.core.exceptions.MaxLengthInBytesExceededException;
+import com.coherentlogic.gama.client.core.exceptions.ValueOutOfBoundsException;
 
 /**
  * Unit test for the {@link QueryBuilder} class.
@@ -51,6 +52,21 @@ public class QueryBuilderTest {
             buffer.append("X");
 
         return buffer.toString();
+    }
+
+    @Test
+    public void testAssertBetweenOK() {
+        queryBuilder.assertBetween(FOO, 1, 10, 5);
+    }
+
+    @Test(expected=ValueOutOfBoundsException.class)
+    public void testAssertBetweenTooLow() {
+        queryBuilder.assertBetween(FOO, 1, 10, 0);
+    }
+
+    @Test(expected=ValueOutOfBoundsException.class)
+    public void testAssertBetweenTooHigh() {
+        queryBuilder.assertBetween(FOO, 1, 10, 11);
     }
 
     @Test
@@ -807,17 +823,17 @@ public class QueryBuilderTest {
     @Test
     public void testWithPrXCdY() {
 
-        queryBuilder.withPrXCdY(123, 456, FOO);
+        queryBuilder.withPrXCdY(123, 124, FOO);
 
-        assertEquals("http://www.google-analytics.com/collect?pr123cd456=foo", queryBuilder.getEscapedURI());
+        assertEquals("http://www.google-analytics.com/collect?pr123cd124=foo", queryBuilder.getEscapedURI());
     }
 
     @Test
     public void testWithPrXCmY() {
 
-        queryBuilder.withPrXCmY(123, 456, FOO);
+        queryBuilder.withPrXCmY(123, 124, FOO);
 
-        assertEquals("http://www.google-analytics.com/collect?pr123cm456=foo", queryBuilder.getEscapedURI());
+        assertEquals("http://www.google-analytics.com/collect?pr123cm124=foo", queryBuilder.getEscapedURI());
     }
 
     @Test
@@ -951,65 +967,65 @@ public class QueryBuilderTest {
     @Test
     public void testWithIlXPiYId() {
 
-        queryBuilder.withIlXPiYId(123, 456, FOO);
+        queryBuilder.withIlXPiYId(123, 124, FOO);
 
-        assertEquals("http://www.google-analytics.com/collect?il123pi456id=foo", queryBuilder.getEscapedURI());
+        assertEquals("http://www.google-analytics.com/collect?il123pi124id=foo", queryBuilder.getEscapedURI());
     }
 
     @Test
     public void testWithIlXPiYNm() {
 
-        queryBuilder.withIlXPiYNm(123, 456, FOO);
+        queryBuilder.withIlXPiYNm(123, 124, FOO);
 
-        assertEquals("http://www.google-analytics.com/collect?il123pi456nm=foo", queryBuilder.getEscapedURI());
+        assertEquals("http://www.google-analytics.com/collect?il123pi124nm=foo", queryBuilder.getEscapedURI());
     }
 
     @Test
     public void testWithIlXPiYBr() {
 
-        queryBuilder.withIlXPiYBr(123, 456, FOO);
+        queryBuilder.withIlXPiYBr(123, 124, FOO);
 
-        assertEquals("http://www.google-analytics.com/collect?il123pi456br=foo", queryBuilder.getEscapedURI());
+        assertEquals("http://www.google-analytics.com/collect?il123pi124br=foo", queryBuilder.getEscapedURI());
     }
 
     @Test
     public void testWithIlXPiYCa() {
 
-        queryBuilder.withIlXPiYCa(123, 456, FOO);
+        queryBuilder.withIlXPiYCa(123, 124, FOO);
 
-        assertEquals("http://www.google-analytics.com/collect?il123pi456ca=foo", queryBuilder.getEscapedURI());
+        assertEquals("http://www.google-analytics.com/collect?il123pi124ca=foo", queryBuilder.getEscapedURI());
     }
 
     @Test
     public void testWithIlXPiYVa() {
 
-        queryBuilder.withIlXPiYVa(123, 456, FOO);
+        queryBuilder.withIlXPiYVa(123, 124, FOO);
 
-        assertEquals("http://www.google-analytics.com/collect?il123pi456va=foo", queryBuilder.getEscapedURI());
+        assertEquals("http://www.google-analytics.com/collect?il123pi124va=foo", queryBuilder.getEscapedURI());
     }
 
     @Test
     public void testWithIlXPiYPs() {
 
-        queryBuilder.withIlXPiYPs(123, 456, FOO);
+        queryBuilder.withIlXPiYPs(123, 124, FOO);
 
-        assertEquals("http://www.google-analytics.com/collect?il123pi456ps=foo", queryBuilder.getEscapedURI());
+        assertEquals("http://www.google-analytics.com/collect?il123pi124ps=foo", queryBuilder.getEscapedURI());
     }
 
     @Test
     public void testWithIlXPiYCdZ() {
 
-        queryBuilder.withIlXPiYCdZ(123, 456, 789, FOO);
+        queryBuilder.withIlXPiYCdZ(123, 124, 125, FOO);
 
-        assertEquals("http://www.google-analytics.com/collect?il123pi456cd789=foo", queryBuilder.getEscapedURI());
+        assertEquals("http://www.google-analytics.com/collect?il123pi124cd125=foo", queryBuilder.getEscapedURI());
     }
 
     @Test
     public void testWithIlXPiYCmZ() {
 
-        queryBuilder.withIlXPiYCmZ(123, 456, 789, FOO);
+        queryBuilder.withIlXPiYCmZ(123, 124, 125, FOO);
 
-        assertEquals("http://www.google-analytics.com/collect?il123pi456cm789=foo", queryBuilder.getEscapedURI());
+        assertEquals("http://www.google-analytics.com/collect?il123pi124cm125=foo", queryBuilder.getEscapedURI());
     }
 
     @Test
@@ -1231,6 +1247,11 @@ public class QueryBuilderTest {
         assertEquals("http://www.google-analytics.com/collect?cd100=foo", queryBuilder.getEscapedURI());
     }
 
+    @Test(expected=ValueOutOfBoundsException.class)
+    public void testWithCdXOutOfBounds() {
+        queryBuilder.withCdX(201, FOO);
+    }
+//dd
     @Test
     public void testWithCmX() {
 
