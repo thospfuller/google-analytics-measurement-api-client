@@ -1460,6 +1460,8 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
         return this;
     }
 
+    public static final String PR_N_VA = "pr{0}va";
+
     /**
      * Product Variant
      *
@@ -1476,10 +1478,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
         assertBetween("productIndexN", 1, 200, productIndexN);
         checkSizeOf ("value", value, 500);
 
-        addParameter("pr" + productIndexN + "va", value);
+        addParameter(MessageFormat.format(PR_N_VA, productIndexN), value);
 
         return this;
     }
+
+    public static final String PR_N_PR = "pr{0}pr";
 
     /**
      * Product Price
@@ -1496,7 +1500,7 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
 
         assertBetween("productIndexN", 1, 200, productIndexN);
 
-        addParameter("pr" + productIndexN + "pr", value);
+        addParameter(MessageFormat.format(PR_N_PR, productIndexN), value);
 
         return this;
     }
@@ -1517,10 +1521,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
         assertBetween("productIndexN", 1, 200, productIndexN);
         Utils.assertNotNull("value", value);
 
-        addParameter("pr" + productIndexN + "pr", value.toString());
+        addParameter(MessageFormat.format(PR_N_PR, productIndexN), value.toString());
 
         return this;
     }
+
+    public static final String PR_N_QT = "pr{0}qt";
 
     /**
      * Product Quantity
@@ -1538,7 +1544,7 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
         assertBetween("productIndexN", 1, 200, productIndexN);
         assertNotNegative("value", value);
 
-        addParameter("pr" + productIndexN + "qt", value.toString());
+        addParameter(MessageFormat.format(PR_N_QT, productIndexN), value);
 
         return this;
     }
@@ -1558,10 +1564,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
 
         assertBetween("productIndexN", 1, 200, productIndexN);
 
-        addParameter("pr" + productIndexN + "qt", value);
+        addParameter(MessageFormat.format(PR_N_QT, productIndexN), value);
 
         return this;
     }
+
+    public static final String PR_N_CC = "pr{0}cc";
 
     /**
      * Product Coupon Code
@@ -1579,7 +1587,7 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
         assertBetween("productIndexN", 1, 200, productIndexN);
         assertNotNegative("value", value);
 
-        addParameter("pr" + productIndexN + "cc", value.toString());
+        addParameter(MessageFormat.format(PR_N_CC, productIndexN), value);
 
         return this;
     }
@@ -1600,10 +1608,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
         assertBetween("productIndexN", 1, 200, productIndexN);
         checkSizeOf("value", value, 500);
 
-        addParameter("pr" + productIndexN + "cc", value);
+        addParameter(MessageFormat.format(PR_N_CC, productIndexN), value);
 
         return this;
     }
+
+    public static final String PR_N_PS = "pr{0}ps";
 
     /**
      * Product Position
@@ -1620,7 +1630,7 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
 
         assertBetween("productIndexN", 1, 200, productIndexN);
 
-        addParameter("pr" + productIndexN + "ps", value);
+        addParameter(MessageFormat.format(PR_N_PS, productIndexN), value);
 
         return this;
     }
@@ -1641,10 +1651,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
         assertBetween("productIndexN", 1, 200, productIndexN);
         assertNotNegative("value", value);
 
-        addParameter("pr" + productIndexN + "ps", value.toString());
+        addParameter(MessageFormat.format(PR_N_PS, productIndexN), value);
 
         return this;
     }
+
+    public static final String PR_X_CD_Y = "pr{0}cd{1}";
 
     /**
      * Product Custom Dimension
@@ -1665,10 +1677,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
         assertBetween("productIndexX", 1, 200, productIndexX);
         assertBetween("dimensionIndexY", 1, 200, dimensionIndexY);
 
-        addParameter("pr" + productIndexX + "ps" + dimensionIndexY, value);
+        addParameter(MessageFormat.format(PR_X_CD_Y, productIndexX, dimensionIndexY), value);
 
         return this;
     }
+
+    public static final String PR_X_CM_Y = "pr{0}cm{1}";
 
     /**
      * Product Custom Metric
@@ -1687,7 +1701,7 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
         assertBetween("productIndexX", 1, 200, productIndexX);
         assertBetween("metricIndexY", 1, 200, metricIndexY);
 
-        addParameter("pr" + productIndexX + "cm" + metricIndexY, value);
+        addParameter(MessageFormat.format(PR_X_CM_Y, productIndexX, metricIndexY), value);
 
         return this;
     }

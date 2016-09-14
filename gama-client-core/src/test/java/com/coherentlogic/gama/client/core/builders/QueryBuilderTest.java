@@ -97,6 +97,94 @@ public class QueryBuilderTest {
     // -----
 
     @Test
+    public void testWithPrNVaWithString() {
+
+        queryBuilder.withPrNVa(123, FOO);
+
+        assertEquals("http://www.google-analytics.com/collect?pr123va=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithPrNPrWithString() {
+
+        queryBuilder.withPrNPr(123, "456.78");
+
+        assertEquals("http://www.google-analytics.com/collect?pr123pr=456.78", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithPrNPrWithInteger() {
+
+        queryBuilder.withPrNPr(123, new BigDecimal ("456.78"));
+
+        assertEquals("http://www.google-analytics.com/collect?pr123pr=456.78", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithPrNQtWithString() {
+
+        queryBuilder.withPrNQt(123, "456");
+
+        assertEquals("http://www.google-analytics.com/collect?pr123qt=456", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithPrNQtWithInteger() {
+
+        queryBuilder.withPrNQt(123, 456);
+
+        assertEquals("http://www.google-analytics.com/collect?pr123qt=456", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithPrNCcWithString() {
+
+        queryBuilder.withPrNCc(123, "456");
+
+        assertEquals("http://www.google-analytics.com/collect?pr123cc=456", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithPrNCcWithInteger() {
+
+        queryBuilder.withPrNCc(123, 456);
+
+        assertEquals("http://www.google-analytics.com/collect?pr123cc=456", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithPrNPsWithString() {
+
+        queryBuilder.withPrNPs(123, "456");
+
+        assertEquals("http://www.google-analytics.com/collect?pr123ps=456", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithPrNPsWithInteger() {
+
+        queryBuilder.withPrNPs(123, 456);
+
+        assertEquals("http://www.google-analytics.com/collect?pr123ps=456", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithPrXCdY() {
+
+        queryBuilder.withPrXCdY(123, 456, FOO);
+
+        assertEquals("http://www.google-analytics.com/collect?pr123cd456=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test
+    public void testWithPrXCmY() {
+
+        queryBuilder.withPrXCmY(123, 456, FOO);
+
+        assertEquals("http://www.google-analytics.com/collect?pr123cm456=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test
     public void testWithPa() {
 
         queryBuilder.withPa(FOO);
