@@ -130,6 +130,20 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
         return this;
     }
 
+    /**
+     * @todo Move this to the Utils class.
+     * @todo Use more generalized exception.
+     */
+    QueryBuilder assertNotNegative (String name, int value) {
+
+        Utils.assertNotNull(name, value);
+
+        if (value < 0)
+            throw new NegativeValueException (name, value);
+
+        return this;
+    }
+
     QueryBuilder checkSizeOf (String parameterName, String parameterValue, int maxLengthInBytes) {
 
         Utils.assertNotNull(parameterName, parameterValue);
@@ -148,6 +162,16 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
         return value ? "1" : "0";
     }
 
+    QueryBuilder assertBetween (String name, int begin, int end, int actual) {
+
+        if (! (begin <= actual || actual <= end))
+            throw new ValueOutOfBoundsException(name, begin, end, actual);
+
+        return this;
+    }
+
+    public static final String V = "v";
+
     /**
      * Protocol Version
      *
@@ -160,7 +184,7 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      */
     public QueryBuilder withV (String protocolVersion) {
 
-        addParameter("v", protocolVersion);
+        addParameter(V, protocolVersion);
 
         return this;
     }
@@ -177,6 +201,8 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
         return withV("1");
     }
 
+    public static final String TID = "tid";
+
     /**
      * Tracking ID / Web Property ID
      *
@@ -188,10 +214,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      */
     public QueryBuilder withTid (String trackingId) {
 
-        addParameter("tid", trackingId);
+        addParameter(TID, trackingId);
     
         return this;
     }
+
+    public static final String AIP = "aip";
 
     /**
      * Anonymize IP
@@ -209,10 +237,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
 
         String value = asBoolean(anonymizeIP);
 
-        addParameter("aip", value);
+        addParameter(AIP, value);
     
         return this;
     }
+
+    public static final String DS = "ds";
 
     /**
      * Data Source
@@ -229,10 +259,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      */
     public QueryBuilder withDs (String dataSource) {
 
-        addParameter("ds", dataSource);
+        addParameter(DS, dataSource);
 
         return this;
     }
+
+    public static final String QT = "qt";
 
     /**
      * Queue Time
@@ -247,13 +279,15 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      */
     public QueryBuilder withQt (long queueTimeMillis) {
 
-        if (0 < queueTimeMillis)
+        if (queueTimeMillis <= 0)
             throw new InvalidQueueTime (queueTimeMillis);
 
-        addParameter("qt", Long.toString(queueTimeMillis));
+        addParameter(QT, Long.toString(queueTimeMillis));
 
         return this;
     }
+
+    public static final String Z = "z";
 
     /**
      * Cache Buster
@@ -268,10 +302,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      */
     public QueryBuilder withZ (String cacheBuster) {
 
-        addParameter("z", cacheBuster);
+        addParameter(Z, cacheBuster);
 
         return this;
     }
+
+    public static final String CID = "cid";
 
     /**
      * Client ID
@@ -287,7 +323,7 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      */
     public QueryBuilder withCID (String clientId) {
 
-        addParameter("cid", clientId);
+        addParameter(CID, clientId);
 
         return this;
     }
@@ -303,11 +339,10 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      * described in http://www.ietf.org/rfc/rfc4122.txt
      */
     public QueryBuilder withCIDAsRandomUUID () {
-
-        addParameter("cid", UUID.randomUUID().toString());
-
-        return this;
+        return withCID(UUID.randomUUID().toString());
     }
+
+    public static final String UID = "uid";
 
     /**
      * User ID
@@ -322,10 +357,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      */
     public QueryBuilder withUID (String userId) {
 
-        addParameter("uid", userId);
+        addParameter(UID, userId);
 
         return this;
     }
+
+    public static final String SC = "sc";
 
     /**
      * Session Control
@@ -340,10 +377,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      */
     public QueryBuilder withSc (String sessionControl) {
 
-        addParameter("sc", sessionControl);
+        addParameter(SC, sessionControl);
 
         return this;
     }
+
+    public static final String UIP = "uip";
 
     /**
      * IP Override
@@ -357,10 +396,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      */
     public QueryBuilder withUip (String ipOverride) {
 
-        addParameter("uip", ipOverride);
+        addParameter(UIP, ipOverride);
 
         return this;
     }
+
+    public static final String UA = "ua";
 
     /**
      * User Agent Override
@@ -374,10 +415,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      */
     public QueryBuilder withUa (String userAgentOverride) {
 
-        addParameter("ua", userAgentOverride);
+        addParameter(UA, userAgentOverride);
 
         return this;
     }
+
+    public static final String GEOID = "geoid";
 
     /**
      * Geographical Override
@@ -395,10 +438,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      */
     public QueryBuilder withGeoID (String geographicalOverride) {
 
-        addParameter("geoid", geographicalOverride);
+        addParameter(GEOID, geographicalOverride);
 
         return this;
     }
+
+    public static final String DR = "dr";
 
     /**
      * Document Referrer
@@ -414,10 +459,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
 
         checkSizeOf("documentReferrer", documentReferrer, 2048);
 
-        addParameter("dr", documentReferrer);
+        addParameter(DR, documentReferrer);
 
         return this;
     }
+
+    public static final String CN = "cn";
 
     /**
      * Campaign Name
@@ -432,10 +479,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
 
         checkSizeOf("campaignName", campaignName, 100);
 
-        addParameter("cn", campaignName);
+        addParameter(CN, campaignName);
 
         return this;
     }
+
+    public static final String CS = "cs";
 
     /**
      * Campaign Source
@@ -450,10 +499,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
 
         checkSizeOf("campaignSource", campaignSource, 100);
 
-        addParameter("cs", campaignSource);
+        addParameter(CS, campaignSource);
 
         return this;
     }
+
+    public static final String CM = "cm";
 
     /**
      * Campaign Medium
@@ -468,10 +519,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
 
         checkSizeOf("campaignMedium", campaignMedium, 50);
 
-        addParameter("cm", campaignMedium);
+        addParameter(CM, campaignMedium);
 
         return this;
     }
+
+    public static final String CK = "ck";
 
     /**
      * Campaign Keyword
@@ -486,10 +539,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
 
         checkSizeOf("campaignKeyword", campaignKeyword, 500);
 
-        addParameter("ck", campaignKeyword);
+        addParameter(CK, campaignKeyword);
 
         return this;
     }
+
+    public static final String CC = "cc";
 
     /**
      * Campaign Content
@@ -504,10 +559,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
 
         checkSizeOf("campaignContent", campaignContent, 500);
 
-        addParameter("cc", campaignContent);
+        addParameter(CC, campaignContent);
 
         return this;
     }
+
+    public static final String CI = "ci";
 
     /**
      * Campaign ID
@@ -522,10 +579,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
 
         checkSizeOf("campaignID", campaignID, 100);
 
-        addParameter("ci", campaignID);
+        addParameter(CI, campaignID);
 
         return this;
     }
+
+    public static final String GCLID = "gclid";
 
     /**
      * Google AdWords ID
@@ -538,10 +597,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      */
     public QueryBuilder withGclid (String googleAdWordsID) {
 
-        addParameter("gclid", googleAdWordsID);
+        addParameter(GCLID, googleAdWordsID);
 
         return this;
     }
+
+    public static final String DCLID = "dclid";
 
     /**
      * Google Display Ads ID
@@ -554,10 +615,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      */
     public QueryBuilder withDclid (String googleDisplayAdsID) {
 
-        addParameter("gclid", googleDisplayAdsID);
+        addParameter(DCLID, googleDisplayAdsID);
 
         return this;
     }
+
+    public static final String SR = "sr";
 
     /**
      * Screen Resolution
@@ -572,10 +635,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
 
         checkSizeOf("screenResolution", screenResolution, 20);
 
-        addParameter("sr", screenResolution);
+        addParameter(SR, screenResolution);
 
         return this;
     }
+
+    public static final String VP = "vp";
 
     /**
      * Viewport size
@@ -590,10 +655,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
 
         checkSizeOf("viewportSize", viewportSize, 20);
 
-        addParameter("vp", viewportSize);
+        addParameter(VP, viewportSize);
 
         return this;
     }
+
+    public static final String DE = "de";
 
     /**
      * Document Encoding
@@ -608,10 +675,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
 
         checkSizeOf("documentEncoding", documentEncoding, 20);
 
-        addParameter("de", documentEncoding);
+        addParameter(DE, documentEncoding);
 
         return this;
     }
+
+    public static final String SD = "sd";
 
     /**
      * Screen Colors
@@ -626,10 +695,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
 
         checkSizeOf("screenColors", screenColors, 20);
 
-        addParameter("sd", screenColors);
+        addParameter(SD, screenColors);
 
         return this;
     }
+
+    public static final String UL = "ul";
 
     /**
      * User Language
@@ -644,10 +715,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
 
         checkSizeOf("userLanguage", userLanguage, 20);
 
-        addParameter("ul", userLanguage);
+        addParameter(UL, userLanguage);
 
         return this;
     }
+
+    public static final String JE = "je";
 
     /**
      * Java Enabled
@@ -660,10 +733,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      */
     public QueryBuilder withJe (boolean javaEnabled) {
 
-        addParameter("je", asBoolean(javaEnabled));
+        addParameter(JE, asBoolean(javaEnabled));
 
         return this;
     }
+
+    public static final String FL = "fl";
 
     /**
      * Flash Version
@@ -678,10 +753,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
 
         checkSizeOf("flashVersion", flashVersion, 20);
 
-        addParameter("fl", flashVersion);
+        addParameter(FL, flashVersion);
 
         return this;
     }
+
+    public static final String T = "t";
 
     /**
      * Hit type
@@ -695,7 +772,7 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      */
     public QueryBuilder withT (String hitType) {
 
-        addParameter("t", hitType);
+        addParameter(T, hitType);
 
         return this;
     }
@@ -821,6 +898,8 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
         return withT (TIMING);
     }
 
+    public static final String NI = "ni";
+
     /**
      * Non-Interaction Hit
      *
@@ -832,10 +911,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      */
     public QueryBuilder withNi (boolean nonInteractionHit) {
 
-        addParameter("ni", asBoolean(nonInteractionHit));
+        addParameter(NI, asBoolean(nonInteractionHit));
 
         return this;
     }
+
+    public static final String DL = "dl";
 
     /**
      * Document location URL
@@ -855,11 +936,13 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
 
         checkSizeOf("documentLocationURL", documentLocationURL, 2048);
 
-        addParameter("dl", documentLocationURL);
+        addParameter(DL, documentLocationURL);
 
         return this;
     }
-    
+
+    public static final String DH = "dh";
+
     /**
      * Document Host Name
      *
@@ -873,10 +956,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
 
         checkSizeOf("documentHostName", documentHostName, 100);
 
-        addParameter("dh", documentHostName);
+        addParameter(DH, documentHostName);
 
         return this;
     }
+
+    public static final String DP = "dp";
 
     /**
      * Document Path
@@ -892,10 +977,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
 
         checkSizeOf("documentPath", documentPath, 2048);
 
-        addParameter("dp", documentPath);
+        addParameter(DP, documentPath);
 
         return this;
     }
+
+    public static final String DT = "dt";
 
     /**
      * Document Title
@@ -910,10 +997,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
 
         checkSizeOf("documentTitle", documentTitle, 1500);
 
-        addParameter("dt", documentTitle);
+        addParameter(DT, documentTitle);
 
         return this;
     }
+
+    public static final String CD = "cd";
 
     /**
      * Screen Name
@@ -930,10 +1019,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
 
         checkSizeOf("screenName", screenName, 2048);
 
-        addParameter("cd", screenName);
+        addParameter(CD, screenName);
 
         return this;
     }
+
+    public static final String LINKID = "linkid";
 
     /**
      * Link ID
@@ -947,10 +1038,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      */
     public QueryBuilder withLinkid (String linkID) {
 
-        addParameter("linkid", linkID);
+        addParameter(LINKID, linkID);
 
         return this;
     }
+
+    public static final String AN = "an";
 
     /**
      * Application Name
@@ -966,10 +1059,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
 
         checkSizeOf("applicationName", applicationName, 100);
 
-        addParameter("an", applicationName);
+        addParameter(AN, applicationName);
 
         return this;
     }
+
+    public static final String AID = "aid";
 
     /**
      * Application ID
@@ -984,10 +1079,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
 
         checkSizeOf("applicationID", applicationID, 150);
 
-        addParameter("aid", applicationID);
+        addParameter(AID, applicationID);
 
         return this;
     }
+
+    public static final String AV = "av";
 
     /**
      * Application Version
@@ -1002,10 +1099,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
 
         checkSizeOf ("applicationVersion", applicationVersion, 100);
 
-        addParameter("av", applicationVersion);
+        addParameter(AV, applicationVersion);
 
         return this;
     }
+
+    public static final String AIID = "aiid";
 
     /**
      * Application Installer ID
@@ -1020,10 +1119,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
 
         checkSizeOf ("applicationInstallerID", applicationInstallerID, 150);
 
-        addParameter("aiid", applicationInstallerID);
+        addParameter(AIID, applicationInstallerID);
 
         return this;
     }
+
+    public static final String EC = "ec";
 
     /**
      * Event Category
@@ -1038,10 +1139,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
 
         checkSizeOf ("eventCategory", eventCategory, 150);
 
-        addParameter("ec", eventCategory);
+        addParameter(EC, eventCategory);
 
         return this;
     }
+
+    public static final String EA = "ea";
 
     /**
      * Event Action
@@ -1056,10 +1159,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
 
         checkSizeOf ("eventAction", eventAction, 500);
 
-        addParameter("ea", eventAction);
+        addParameter(EA, eventAction);
 
         return this;
     }
+
+    public static final String EL = "el";
 
     /**
      * Event Label
@@ -1074,10 +1179,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
 
         checkSizeOf ("eventLabel", eventLabel, 500);
 
-        addParameter("el", eventLabel);
+        addParameter(EL, eventLabel);
 
         return this;
     }
+
+    public static final String EV = "ev";
 
     /**
      * Event Value
@@ -1094,10 +1201,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
 
         assertNotNegative("eventValue", eventValue);
 
-        addParameter("ev", Integer.toString(eventValue));
+        addParameter(EV, Integer.toString(eventValue));
 
         return this;
     }
+
+    public static final String TI = "ti";
 
     /**
      * Below is from E-Commerce.
@@ -1131,10 +1240,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
 
         checkSizeOf ("transactionID", transactionID, 500);
 
-        addParameter("ti", transactionID);
+        addParameter(TI, transactionID);
 
         return this;
     }
+
+    public static final String TA = "ta";
 
     /**
      * Transaction Affiliation
@@ -1164,10 +1275,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
 
         checkSizeOf ("transactionAffiliation", transactionAffiliation, 500);
 
-        addParameter("ta", transactionAffiliation);
+        addParameter(TA, transactionAffiliation);
 
         return this;
     }
+
+    public static final String TR = "tr";
 
     /**
      * Transaction Revenue
@@ -1180,7 +1293,7 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      */
     public QueryBuilder withTr (String transactionRevenue) {
 
-        addParameter("tr", transactionRevenue);
+        addParameter(TR, transactionRevenue);
 
         return this;
     }
@@ -1198,10 +1311,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      */
     public QueryBuilder withTr (BigDecimal transactionRevenue) {
 
-        addParameter("tr", transactionRevenue.toString());
+        addParameter(TR, transactionRevenue);
 
         return this;
     }
+
+    public static final String TT = "tt";
 
     /**
      * Transaction Tax
@@ -1216,10 +1331,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      */
     public QueryBuilder withTt (BigDecimal transactionTax) {
 
-        addParameter("tt", transactionTax.toString());
+        addParameter(TT, transactionTax.toString());
 
         return this;
     }
+
+    public static final String IN = "in";
 
     /**
      * Item Name
@@ -1234,10 +1351,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
 
         checkSizeOf ("itemName", itemName, 500);
 
-        addParameter("in", itemName);
+        addParameter(IN, itemName);
 
         return this;
     }
+
+    public static final String IP = "ip";
 
     /**
      * Item Price
@@ -1252,7 +1371,7 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      */
     public QueryBuilder withIp (String itemPrice) {
 
-        addParameter("ip", itemPrice);
+        addParameter(IP, itemPrice);
 
         return this;
     }
@@ -1270,10 +1389,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      */
     public QueryBuilder withIp (BigDecimal itemPrice) {
 
-        addParameter("ip", itemPrice.toString());
+        addParameter(IP, itemPrice.toString());
 
         return this;
     }
+
+    public static final String IQ = "iq";
 
     /**
      * Event Value
@@ -1288,7 +1409,7 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      */
     public QueryBuilder withIq (String itemQuantity) {
 
-        addParameter("iq", itemQuantity);
+        addParameter(IQ, itemQuantity);
 
         return this;
     }
@@ -1303,6 +1424,7 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      * Example value: 55
      *
      * @todo Unit test negative values.
+     * @todo Change int to Integer and change the assertNotNegative so it takes a Number.
      */
     public QueryBuilder withIq (int itemQuantity) {
 
@@ -1312,6 +1434,8 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
 
         return this;
     }
+
+    public static final String IC = "ic";
 
     /**
      * Item Code
@@ -1326,10 +1450,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
 
         checkSizeOf ("itemCode", itemCode, 500);
 
-        addParameter("ic", itemCode);
+        addParameter(IC, itemCode);
 
         return this;
     }
+
+    public static final String IV = "iv";
 
     /**
      * Item Category
@@ -1344,10 +1470,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
 
         checkSizeOf ("itemCategory", itemCategory, 500);
 
-        addParameter("iv", itemCategory);
+        addParameter(IV, itemCategory);
 
         return this;
     }
+
+    public static final String CU = "cu";
 
     /**
      * Currency Code
@@ -1363,18 +1491,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
 
         checkSizeOf ("currencyCode", currencyCode, 500);
 
-        addParameter("cu", currencyCode);
+        addParameter(CU, currencyCode);
 
         return this;
     }
 
-    QueryBuilder assertBetween (String name, int begin, int end, int actual) {
-
-        if (! (begin <= actual || actual <= end))
-            throw new ValueOutOfBoundsException(name, begin, end, actual);
-
-        return this;
-    }
+    public static final String PR_N_ID = "pr{0}id";
 
     /**
      * Product SKU
@@ -1387,15 +1509,17 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      * Example value: P12345
      * Example usage: pr1id=P12345
      */
-    public QueryBuilder withPrNid (int productIndexN, String value) {
+    public QueryBuilder withPrNId (int productIndexN, String value) {
 
         assertBetween("productIndexN", 1, 200, productIndexN);
         checkSizeOf ("value", value, 500);
 
-        addParameter("pr" + productIndexN + "id", value);
+        addParameter(MessageFormat.format(PR_N_ID, productIndexN), value);
 
         return this;
     }
+
+    public static final String PR_N_NM = "pr{0}nm";
 
     /**
      * Product Name
@@ -1412,10 +1536,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
         assertBetween("productIndexN", 1, 200, productIndexN);
         checkSizeOf ("value", value, 500);
 
-        addParameter("pr" + productIndexN + "nm", value);
+        addParameter(MessageFormat.format(PR_N_NM, productIndexN), value);
 
         return this;
     }
+
+    public static final String PR_N_BR = "pr{0}br";
 
     /**
      * Product Brand
@@ -1432,7 +1558,7 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
         assertBetween("productIndexN", 1, 200, productIndexN);
         checkSizeOf ("value", value, 500);
 
-        addParameter("pr" + productIndexN + "br", value);
+        addParameter(MessageFormat.format(PR_N_BR, productIndexN), value);
 
         return this;
     }
