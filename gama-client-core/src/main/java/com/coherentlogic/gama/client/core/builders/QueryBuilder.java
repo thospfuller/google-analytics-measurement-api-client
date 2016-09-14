@@ -164,7 +164,7 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
 
     QueryBuilder assertBetween (String name, int begin, int end, int actual) {
 
-        if (! (begin <= actual || actual <= end))
+        if (! (begin <= actual && actual <= end))
             throw new ValueOutOfBoundsException(name, begin, end, actual);
 
         return this;
