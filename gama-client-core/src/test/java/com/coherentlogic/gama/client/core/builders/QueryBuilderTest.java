@@ -97,6 +97,14 @@ public class QueryBuilderTest {
     // -----
 
     @Test
+    public void testWithPrNCaWithString() {
+
+        queryBuilder.withPrNCa(123, FOO);
+
+        assertEquals("http://www.google-analytics.com/collect?pr123ca=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test
     public void testWithPrNVaWithString() {
 
         queryBuilder.withPrNVa(123, FOO);

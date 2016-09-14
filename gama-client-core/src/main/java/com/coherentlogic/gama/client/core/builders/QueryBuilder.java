@@ -1437,6 +1437,8 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
         return this;
     }
 
+    public static final String PR_N_CA = "pr{0}ca";
+
     /**
      * Product Category
      *
@@ -1455,7 +1457,7 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
         assertBetween("productIndexN", 1, 200, productIndexN);
         checkSizeOf ("value", value, 500);
 
-        addParameter("pr" + productIndexN + "ca", value);
+        addParameter(MessageFormat.format(PR_N_CA, productIndexN), value);
 
         return this;
     }
