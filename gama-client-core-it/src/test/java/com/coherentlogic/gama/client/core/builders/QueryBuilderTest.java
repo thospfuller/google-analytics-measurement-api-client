@@ -44,7 +44,7 @@ public class QueryBuilderTest {
     @Test
     public void testSuccessfulGAPost () {
 
-        ResponseEntity<?> result = queryBuilder
+        String result = queryBuilder
             .withV1()
             .withTid(googleAnalyticsUAID)
             .withCIDAsRandomUUID()
@@ -82,7 +82,7 @@ public class QueryBuilderTest {
 
         when (responseEntity.getStatusCode()).thenReturn(HttpStatus.CONFLICT);
 
-        ResponseEntity<?> result = new QueryBuilder (mockRestTemplate).doPost();
+        String result = new QueryBuilder (mockRestTemplate).doPost();
     }
 
     

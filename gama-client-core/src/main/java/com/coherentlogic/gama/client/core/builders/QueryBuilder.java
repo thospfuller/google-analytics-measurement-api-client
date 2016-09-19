@@ -58,7 +58,7 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
         "***                                                                                                       ***",
         "***                            The project and issue tracker can be found here:                           ***",
         "***                                                                                                       ***",
-        "***           https://bitbucket.org/CoherentLogic/coherent-datafeed-thomson-reuters-trep-edition          ***",
+        "***              https://bitbucket.org/CoherentLogic/google-analytics-measurement-api-client              ***",
         "***                                                                                                       ***",
         "*** ----------------------------------------------------------------------------------------------------- ***",
         "***                                                                                                       ***",
@@ -2981,10 +2981,13 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
             throw new PostFailedException("The post failed for the URI " + uri +
                 " (http status: " + responseEntity.getStatusCodeValue() + ")");
 
+        /*
+         * TODO: We should return the entire responseEntity and not just the body. 
+         */
         return response.getBody();
     }
 
-    public ResponseEntity<?> doPost () {
-        return doGet(ResponseEntity.class);
+    public String doPost () {
+        return doGet(String.class);
     }
 }
