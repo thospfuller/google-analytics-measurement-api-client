@@ -3,6 +3,8 @@ package com.coherentlogic.gama.client.core.builders;
 import static org.junit.Assert.assertEquals;
 
 import java.math.BigDecimal;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 import org.junit.After;
 import org.junit.Before;
@@ -178,6 +180,25 @@ public class QueryBuilderTest {
         queryBuilder.withSc(FOO);
 
         assertEquals("http://www.google-analytics.com/collect?sc=foo", queryBuilder.getEscapedURI());
+    }
+
+    @Test(expected=NullPointerException.class)
+    public void testWithUipUsingANullInetAddress() throws UnknownHostException {
+
+        InetAddress inetAddress = null;
+
+        queryBuilder.withUip(inetAddress);
+    }
+
+    @Test
+    public void testWithUipUsingAnInetAddress() throws UnknownHostException {
+
+        InetAddress inetAddress = InetAddress.getLocalHost();
+
+        queryBuilder.withUip(inetAddress);
+
+        // Subject to change so if this test is failing, check the IP address and change the string below.
+        assertEquals("http://www.google-analytics.com/collect?uip=192.168.41.109", queryBuilder.getEscapedURI());
     }
 
     @Test

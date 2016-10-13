@@ -1,6 +1,7 @@
 package com.coherentlogic.gama.client.core.builders;
 
 import java.math.BigDecimal;
+import java.net.InetAddress;
 import java.net.URI;
 import java.text.MessageFormat;
 import java.util.UUID;
@@ -383,6 +384,26 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
     }
 
     public static final String UIP = "uip";
+
+    /**
+     * IP Override
+     *
+     * Optional.
+     *
+     * The IP address of the user. This should be a valid IP address in IPv4 or IPv6 format. It will always be
+     * anonymized just as though &aip (anonymize IP) had been used.
+     *
+     * Example value: 1.2.3.4
+     */
+    public QueryBuilder withUip (InetAddress ipOverride) {
+
+        if (ipOverride == null)
+            throw new NullPointerException("The ipOverride parameter is null.");
+
+        addParameter(UIP, ipOverride.getHostAddress());
+
+        return this;
+    }
 
     /**
      * IP Override
@@ -2151,8 +2172,8 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
         assertBetween("listIndex", 1, 200, listIndex);
 
         addParameter(
-        	MessageFormat.format(IL_X_NM, listIndex),
-        	productImpressionListName
+            MessageFormat.format(IL_X_NM, listIndex),
+            productImpressionListName
         );
 
         return this;
