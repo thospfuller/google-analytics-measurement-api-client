@@ -14,8 +14,8 @@
     <artifactId>gama-client-core-it</artifactId>
     <packaging>jar</packaging>
 
-    <name>gama-client-core</name>
-    <url>gama-client-core</url>
+    <name>gama-client-core-it</name>
+    <url>gama-client-core-it</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
