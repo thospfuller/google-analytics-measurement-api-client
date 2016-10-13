@@ -105,6 +105,10 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
         this(new RestTemplate (), GOOGLE_ANALYTICS_URL);
     }
 
+    public QueryBuilder(String uri) {
+        this(new RestTemplate (), uri);
+    }
+
     public QueryBuilder(RestTemplate restTemplate) {
         this(restTemplate, GOOGLE_ANALYTICS_URL);
     }

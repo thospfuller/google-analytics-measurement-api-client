@@ -9,6 +9,7 @@ import java.net.UnknownHostException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.web.client.RestTemplate;
 
 import com.coherentlogic.gama.client.core.exceptions.InvalidQueueTime;
 import com.coherentlogic.gama.client.core.exceptions.MaxLengthInBytesExceededException;
@@ -28,7 +29,7 @@ public class QueryBuilderTest {
 
     @Before
     public void setUp() throws Exception {
-        queryBuilder = new QueryBuilder(null);
+        queryBuilder = new QueryBuilder((RestTemplate) null);
     }
 
     @After
