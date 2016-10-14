@@ -30,10 +30,10 @@ import com.coherentlogic.gama.client.core.exceptions.ValueOutOfBoundsException;
  * Class is used to send events to Google Analytics via the Measurement API.
  *
  * @see <a href="https://ga-dev-tools.appspot.com/hit-builder/">Hit Builder</a>
- * @see <a hre="https://developers.google.com/analytics/devguides/collection/protocol/v1/">Measurement Protocol Overview</a>
- * @see <a hre="https://developers.google.com/analytics/devguides/collection/protocol/v1/devguide">Working with the Measurement Protocol</a>
- * @see <a hre="https://developers.google.com/analytics/devguides/collection/protocol/v1/reference">Measurement Protocol Reference</a>
- * @see <a hre="https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters">Measurement Protocol Parameter Reference</a>
+ * @see <a href="https://developers.google.com/analytics/devguides/collection/protocol/v1/">Measurement Protocol Overview</a>
+ * @see <a href="https://developers.google.com/analytics/devguides/collection/protocol/v1/devguide">Working with the Measurement Protocol</a>
+ * @see <a href="https://developers.google.com/analytics/devguides/collection/protocol/v1/reference">Measurement Protocol Reference</a>
+ * @see <a href="https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters">Measurement Protocol Parameter Reference</a>
  *
  * @author <a href="https://www.linkedin.com/in/thomasfuller">Thomas P. Fuller</a>
  * @author <a href="mailto:support@coherentlogic.com">Support</a>
@@ -60,20 +60,6 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
         "***                            The project and issue tracker can be found here:                           ***",
         "***                                                                                                       ***",
         "***              https://bitbucket.org/CoherentLogic/google-analytics-measurement-api-client              ***",
-        "***                                                                                                       ***",
-        "*** ----------------------------------------------------------------------------------------------------- ***",
-        "***                                                                                                       ***",
-        "*** BE ADVISED:                                                                                           ***",
-        "***                                                                                                       ***",
-        "*** This framework uses the Google Analytics Measurement API (GAM) to track framework usage  information. ***",
-        "*** As this software is open-source, you are welcomed to review our use of GAM -- please  see  the  class ***",
-        "*** named  com.coherentlogic.coherent.datafeed.services.GoogleAnalyticsMeasurementService  and  feel free ***",
-        "*** to send us an email if you have further questions.                                                    ***",
-        "***                                                                                                       ***",
-        "*** We do NOT recommend disabling this feature however we offer the option below, just add the following  ***",
-        "*** VM parameter and tracking will be disabled:                                                           ***",
-        "***                                                                                                       ***",
-        "*** -DGOOGLE_ANALYTICS_TRACKING=false                                                                     ***",
         "***                                                                                                       ***",
         "*** ----------------------------------------------------------------------------------------------------- ***",
         "***                                                                                                       ***",
