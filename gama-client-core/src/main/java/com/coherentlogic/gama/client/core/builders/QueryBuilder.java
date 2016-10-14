@@ -108,8 +108,8 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
     }
 
     /**
-     * @todo Move this to the Utils class.
-     * @todo Use more generalized exception.
+     * TODO Move this to the Utils class.
+     * TODO Use more generalized exception.
      */
     QueryBuilder assertNotNegative (String name, long value) {
 
@@ -122,8 +122,8 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
     }
 
     /**
-     * @todo Move this to the Utils class.
-     * @todo Use more generalized exception.
+     * TODO Move this to the Utils class.
+     * TODO Use more generalized exception.
      */
     QueryBuilder assertNotNegative (String name, int value) {
 
@@ -222,7 +222,7 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      *
      * Example value: 1
      *
-     * @todo Consider adding a method that takes a String "0" or "1".
+     * TODO Consider adding a method that takes a String "0" or "1".
      */
     public QueryBuilder withAip (boolean anonymizeIP) {
 
@@ -1206,7 +1206,7 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      *
      * Example value: 55
      *
-     * @todo Unit test negative values.
+     * TODO Unit test negative values.
      */
     public QueryBuilder withEv (int eventValue) {
 
@@ -1318,7 +1318,7 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      *
      * Example value: 15.47
      *
-     * @todo Should we reject negative values?
+     * TODO Should we reject negative values?
      */
     public QueryBuilder withTr (BigDecimal transactionRevenue) {
 
@@ -1338,7 +1338,7 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      *
      * Example value: 11.20
      *
-     * @todo Should we reject negative values?
+     * TODO Should we reject negative values?
      */
     public QueryBuilder withTt (BigDecimal transactionTax) {
 
@@ -1378,7 +1378,7 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      *
      * Example value: 3.50
      *
-     * @todo Should we reject negative values?
+     * TODO Should we reject negative values?
      */
     public QueryBuilder withIp (String itemPrice) {
 
@@ -1396,7 +1396,7 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      *
      * Example value: 3.50
      *
-     * @todo Should we reject negative values?
+     * TODO Should we reject negative values?
      */
     public QueryBuilder withIp (BigDecimal itemPrice) {
 
@@ -1416,7 +1416,7 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      *
      * Example value: 55
      *
-     * @todo Unit test negative values.
+     * TODO Unit test negative values.
      */
     public QueryBuilder withIq (String itemQuantity) {
 
@@ -1434,8 +1434,8 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      *
      * Example value: 55
      *
-     * @todo Unit test negative values.
-     * @todo Change int to Integer and change the assertNotNegative so it takes a Number.
+     * TODO Unit test negative values.
+     * TODO Change int to Integer and change the assertNotNegative so it takes a Number.
      */
     public QueryBuilder withIq (int itemQuantity) {
 
@@ -1808,7 +1808,7 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
      * Example value: Member
      * Example usage: pr1cd2=Member
      *
-     * @todo Consider changing N to X for consistency.
+     * TODO Consider changing N to X for consistency.
      */
     public QueryBuilder withPrXCdY (int productIndexX, int dimensionIndexY, String value) {
 
