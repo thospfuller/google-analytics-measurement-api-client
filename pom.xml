@@ -90,7 +90,7 @@
         way to do this however at the moment commenting the module seems to work. -->
     <modules>
         <module>gama-client-core</module>
-        <module>gama-client-core-it</module>
+        <!-- module>gama-client-core-it</module -->
     </modules>
 
     <dependencyManagement>
@@ -127,43 +127,6 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.9</version>
-                <configuration>
-                    <doclet>org.umlgraph.doclet.UmlGraphDoc</doclet>
-                    <docletPath>C:/development/software/UMLGraph-5.6/lib/UmlGraph.jar</docletPath>
-                    <!--
-                        If you see this error "Cannot run program 'dot'" then Graphviz has probably
-                        not been installed; see here:
-
-                        http://www.graphviz.org/Download.php
-
-                        The UML Graph doclet needs to be installed manually as follows: 
-                        mvn install:install-file -Dfile=C:/development/software/UMLGraph-5.6.6/lib/UmlGraph.jar 
-                        -DgroupId=org.umlgraph -DartifactId=doclet -Dversion=5.6.6 -Dpackaging=jar -->
-                    <docletArtifact>
-                        <groupId>org.umlgraph</groupId>
-                        <artifactId>doclet</artifactId>
-                        <version>5.6</version>
-                    </docletArtifact>
-                    <additionalparam>"-views" "-Xdoclint:none"</additionalparam>
-                    <useStandardDocletOptions>true</useStandardDocletOptions>
-                </configuration>
-                <!-- Below is the yDoc configuration. <doclet>ydoc.doclets.YStandard</doclet> 
-                    <docletPath>C:/development/software/yworks-uml-doclet/lib/ydoc.jar: C:/development/software/yworks-uml-doclet/lib/styleed.jar: 
-                    C:/development/software/yworks-uml-doclet/resources </docletPath> <additionalparam>-umlautogen</additionalparam> -->
-                <reportSets>
-                    <reportSet>
-                        <id>aggregate</id>
-                        <configuration></configuration>
-                        <reports>
-                            <report>aggregate</report>
-                        </reports>
-                    </reportSet>
-                </reportSets>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-report-plugin</artifactId>
                 <version>2.16</version>
             </plugin>
@@ -189,6 +152,43 @@
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.9</version>
+                <configuration>
+                    <doclet>org.umlgraph.doclet.UmlGraphDoc</doclet>
+                    <docletPath>C:/development/software/UMLGraph-5.6/lib/UmlGraph.jar</docletPath>
+                    <!--
+                        If you see this error "Cannot run program 'dot'" then Graphviz has probably
+                        not been installed; see here:
+
+                        http://www.graphviz.org/Download.php
+
+                        The UML Graph doclet needs to be installed manually as follows: 
+                        mvn install:install-file -Dfile=C:/development/software/UMLGraph-5.6.6/lib/UmlGraph.jar 
+                        -DgroupId=org.umlgraph -DartifactId=doclet -Dversion=5.6.6 -Dpackaging=jar -->
+                    <docletArtifact>
+                        <groupId>org.umlgraph</groupId>
+                        <artifactId>doclet</artifactId>
+                        <version>5.6</version>
+                    </docletArtifact>
+                    <additionalparam>"-views" "-Xdoclint:none"</additionalparam>
+                    <useStandardDocletOptions>true</useStandardDocletOptions>
+                </configuration>
+                <!-- Below is the yDoc configuration. <doclet>ydoc.doclets.YStandard</doclet> 
+                    <docletPath>C:/development/software/yworks-uml-doclet/lib/ydoc.jar: C:/development/software/yworks-uml-doclet/lib/styleed.jar: 
+                    C:/development/software/yworks-uml-doclet/resources </docletPath> <additionalparam>-umlautogen</additionalparam> -->
+                <!-- reportSets>
+                    <reportSet>
+                        <id>aggregate</id>
+                        <configuration></configuration>
+                        <reports>
+                            <report>aggregate</report>
+                        </reports>
+                    </reportSet>
+                </reportSets -->
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -228,7 +228,7 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
+            <!-- plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
                 <version>3.5.1</version>
@@ -238,25 +238,10 @@
                 <dependencies>
                     <dependency>
                         <groupId>org.apache.maven.wagon</groupId>
-                        <!-- http://maven.apache.org/wagon/wagon-providers/wagon-ssh/ -->
                         <artifactId>wagon-ssh</artifactId>
                         <version>1.0</version>
                     </dependency>
                 </dependencies>
-            </plugin>
-            <!-- plugin>
-                <groupId>de.smartics.maven.plugin</groupId>
-                <artifactId>smartics-jboss-modules-maven-plugin</artifactId>
-                <version>0.2.0</version>
-                <executions>
-                    <execution>
-                        <id>create-modules-archive</id>
-                        <goals>
-                            <goal>create-modules-archive</goal>
-                        </goals>
-                        <phase>package</phase>
-                    </execution>
-                </executions>
             </plugin -->
         </plugins>
         <pluginManagement>
