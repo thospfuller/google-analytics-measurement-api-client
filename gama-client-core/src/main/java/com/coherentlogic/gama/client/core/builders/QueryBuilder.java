@@ -17,9 +17,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
-import com.coherentlogic.coherent.data.model.core.builders.rest.AbstractRESTQueryBuilder;
+import com.coherentlogic.coherent.data.adapter.core.builders.rest.AbstractRESTQueryBuilder;
 import com.coherentlogic.coherent.data.model.core.util.Utils;
-import com.coherentlogic.coherent.data.model.core.util.WelcomeMessage;
+import com.coherentlogic.coherent.data.adapter.core.util.WelcomeMessage;
 import com.coherentlogic.gama.client.core.exceptions.InvalidQueueTime;
 import com.coherentlogic.gama.client.core.exceptions.MaxLengthInBytesExceededException;
 import com.coherentlogic.gama.client.core.exceptions.NegativeValueException;
@@ -47,7 +47,7 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
         "***                                                                                                       ***",
         "***               Welcome  to  the  Google  Analytics  Measurement  API  Client  for Java                 ***",
         "***                                                                                                       ***",
-        "***                                         Version 0.8.5-RELEASE                                         ***",
+        "***                                         Version 0.8.6-RELEASE                                         ***",
         "***                                                                                                       ***",
         "***                              Please take a moment to follow us on Twitter:                            ***",
         "***                                                                                                       ***",
