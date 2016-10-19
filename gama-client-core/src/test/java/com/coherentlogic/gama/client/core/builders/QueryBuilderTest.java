@@ -199,7 +199,7 @@ public class QueryBuilderTest {
         queryBuilder.withUip(inetAddress);
 
         // Subject to change so if this test is failing, check the IP address and change the string below.
-        assertEquals("http://www.google-analytics.com/collect?uip=192.168.41.109", queryBuilder.getEscapedURI());
+        assertEquals("http://www.google-analytics.com/collect?uip=192.168.1.156", queryBuilder.getEscapedURI());
     }
 
     @Test
