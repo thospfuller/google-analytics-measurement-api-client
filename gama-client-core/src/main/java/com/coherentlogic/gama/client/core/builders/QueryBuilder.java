@@ -47,7 +47,7 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
         "***                                                                                                       ***",
         "***               Welcome  to  the  Google  Analytics  Measurement  API  Client  for Java                 ***",
         "***                                                                                                       ***",
-        "***                                         Version 0.8.6-RELEASE                                         ***",
+        "***                                         Version 0.8.7-RELEASE                                         ***",
         "***                                                                                                       ***",
         "***                              Please take a moment to follow us on Twitter:                            ***",
         "***                                                                                                       ***",
