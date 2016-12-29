@@ -47,7 +47,7 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
         "***                                                                                                       ***",
         "***               Welcome  to  the  Google  Analytics  Measurement  API  Client  for Java                 ***",
         "***                                                                                                       ***",
-        "***                                         Version 0.8.7-RELEASE                                         ***",
+        "***                                         Version 1.0.0-RELEASE                                         ***",
         "***                                                                                                       ***",
         "***                              Please take a moment to follow us on Twitter:                            ***",
         "***                                                                                                       ***",
@@ -85,7 +85,8 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
     }
 
     public static final String GOOGLE_ANALYTICS_TRACKING_KEY = "GOOGLE_ANALYTICS_TRACKING",
-        GOOGLE_ANALYTICS_URL = "http://www.google-analytics.com/collect";
+        GOOGLE_ANALYTICS_URL = "http://www.google-analytics.com/collect",
+        GOOGLE_ANALYTICS_DEBUG_URL = "google-analytics.com/debug/collect";
 
     public QueryBuilder() {
         this(new RestTemplate (), GOOGLE_ANALYTICS_URL);
