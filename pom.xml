@@ -15,7 +15,7 @@
 
     <groupId>com.coherentlogic.gama</groupId>
     <artifactId>client</artifactId>
-    <version>0.8.7-RELEASE</version>
+    <version>1.0.0-RELEASE</version>
 
     <packaging>pom</packaging>
     <name>Coherent Logic GAMA Client</name>
@@ -23,7 +23,7 @@
     <url>https://coherentlogic.com/middleware-development/google-analytics-measurement-api-client/</url>
     <properties>
         <java.version>1.8</java.version>
-        <data.model.version>1.0.26-RELEASE</data.model.version>
+        <enterprise.data.adapter.version>2.0.0-RELEASE</enterprise.data.adapter.version>
     </properties>
     <licenses>
         <license>
@@ -89,15 +89,15 @@
         way to do this however at the moment commenting the module seems to work. -->
     <modules>
         <module>gama-client-core</module>
-        <module>gama-client-core-it</module>
+        <!-- module>gama-client-core-it</module -->
     </modules>
 
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>com.coherentlogic.coherent.data-model</groupId>
+                <groupId>com.coherentlogic.enterprise-data-adapter</groupId>
                 <artifactId>bom</artifactId>
-                <version>${data.model.version}</version>
+                <version>${enterprise.data.adapter.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
