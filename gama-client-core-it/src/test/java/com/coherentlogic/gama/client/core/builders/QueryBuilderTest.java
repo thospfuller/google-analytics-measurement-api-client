@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
+import com.coherentlogic.coherent.data.adapter.core.exceptions.ExecutionFailedException;
 import com.coherentlogic.gama.client.core.exceptions.PostFailedException;
 
 /**
@@ -61,10 +62,10 @@ public class QueryBuilderTest {
 
     /**
      * This is not an integration test however it does belong here. The Google Analytics Measurement API will accept
-     * just about any call made, returning a 200 (OK) status code, even when the data sent is completely wrong. We need
+     * just about any call made, returning a 200 (OK) status code, even when the data sent is incorrect. We need
      * to make sure than anything aside from OK results in an exception being thrown.
      */
-    @Test(expected=PostFailedException.class)
+    @Test(expected=ExecutionFailedException.class)
     public void testUnsuccessfulGAPost () {
 
         RestTemplate mockRestTemplate = mock(RestTemplate.class);
@@ -84,6 +85,4 @@ public class QueryBuilderTest {
 
         String result = new QueryBuilder (mockRestTemplate).doPost();
     }
-
-    
 }
