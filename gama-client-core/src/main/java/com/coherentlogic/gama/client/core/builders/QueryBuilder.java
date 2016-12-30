@@ -86,7 +86,7 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<String> {
 
     public static final String GOOGLE_ANALYTICS_TRACKING_KEY = "GOOGLE_ANALYTICS_TRACKING",
         GOOGLE_ANALYTICS_URL = "http://www.google-analytics.com/collect",
-        GOOGLE_ANALYTICS_DEBUG_URL = "google-analytics.com/debug/collect";
+        GOOGLE_ANALYTICS_DEBUG_URL = "http://www.google-analytics.com/debug/collect";
 
     public QueryBuilder() {
         this(new RestTemplate (), GOOGLE_ANALYTICS_URL);
