@@ -2,9 +2,9 @@
 
 A Java API for working with the Google Measurement API.
 
-https://youtu.be/vyuY3ZLxlAQ
-
 # Google Analytics Measurement API Client Examples
+
+[![Google Analytics Measurement API: How to invoke from Java](https://youtu.be/vyuY3ZLxlAQ/hqdefault.jpg)](https://youtu.be/vyuY3ZLxlAQ)
 
 ```java
 queryBuilder
